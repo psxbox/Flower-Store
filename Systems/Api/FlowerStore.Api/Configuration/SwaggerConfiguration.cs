@@ -8,6 +8,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FlowerStore.Api.Configuration;
 
+/// <summary>
+/// Swagger configuration class
+/// </summary>
 public static class SwaggerConfiguration
 {
     private static readonly string AppTitle = "FlowerStore Api";
@@ -16,6 +19,7 @@ public static class SwaggerConfiguration
     /// Add Swagger
     /// </summary>
     /// <param name="services"></param>
+    /// <param name="settings"></param>
     /// <returns></returns>
     public static IServiceCollection AddAppSwagger(this IServiceCollection services, SwaggerSettings? settings)
     {
@@ -39,7 +43,13 @@ public static class SwaggerConfiguration
                 }
             });
 
-        services.AddSwaggerGen();
+
+        services.AddSwaggerGen(options =>
+        {
+            var xmlDocFile = "api.xml";
+            var xmlDocFilePath = Path.Combine(AppContext.BaseDirectory, xmlDocFile);
+            options.IncludeXmlComments(xmlDocFilePath, true);
+        });
         return services;
     }
 
@@ -47,10 +57,10 @@ public static class SwaggerConfiguration
     /// Start the Swagger
     /// </summary>
     /// <param name="app"></param>
-    /// <param name="swaggerSettings"></param>
-    public static void UseAppSwagger(this WebApplication app, SwaggerSettings? swaggerSettings)
+    /// <param name="settings"></param>
+    public static void UseAppSwagger(this WebApplication app, SwaggerSettings? settings)
     {
-        if (!(swaggerSettings?.Enabled ?? false))
+        if (!(settings?.Enabled ?? false))
         {
             return;
         }

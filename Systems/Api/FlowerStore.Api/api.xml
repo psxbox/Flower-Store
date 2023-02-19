@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlowerStore.Api</name>
+    </assembly>
+    <members>
+        <member name="T:FlowerStore.Api.Bootstrapper">
+            <summary>
+            Web API bootstrapper
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Bootstrapper.RegisterAppServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Register app services
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Configuration.SwaggerConfiguration">
+            <summary>
+            Swagger configuration class
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,FlowerStore.Services.Settings.SwaggerSettings)">
+            <summary>
+            Add Swagger
+            </summary>
+            <param name="services"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.UseAppSwagger(Microsoft.AspNetCore.Builder.WebApplication,FlowerStore.Services.Settings.SwaggerSettings)">
+            <summary>
+            Start the Swagger
+            </summary>
+            <param name="app"></param>
+            <param name="settings"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Flowers.FlowersController">
+            <summary>
+            Flowers controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.#ctor(FlowerStore.Services.Flowers.IFlowerService,Microsoft.Extensions.Logging.ILogger{FlowerStore.Api.Controllers.v1.Flowers.FlowersController})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="flowerService"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.GetFlowersAsync(System.Int32,System.Int32)">
+            <summary>
+            Get flowers
+            </summary>
+            <param name="page">The page</param>
+            <param name="limit">Number of items in the page</param>
+            <returns>List of FlowerResponse</returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.GetFlowerAsync(System.Int32)">
+            <summary>
+            Get flower by Id
+            </summary>
+            <param name="id">Id of flower</param>
+            <returns>Flower</returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.AddFlowerAsync(FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest)">
+            <summary>
+            Add new flower
+            </summary>
+            <param name="addFlowerRequest">Flower data</param>
+            <returns>Added flower</returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.UpdateFlowerAsync(System.Int32,FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest)">
+            <summary>
+            Update the flower by Id
+            </summary>
+            <param name="id">Id of flower</param>
+            <param name="updateFlowerRequest">Modified flower data</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.DeleteFlowerAsync(System.Int32)">
+            <summary>
+            Delete flower by Id
+            </summary>
+            <param name="id">Id of flower</param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest">
+            <summary>
+            <c>AddFlowerRequest</c> model
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest)~FlowerStore.Services.Flowers.Models.AddFlowerModel">
+            <summary>
+            Converts <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest"/> to <see cref="T:FlowerStore.Services.Flowers.Models.AddFlowerModel"/>
+            </summary>
+            <param name="addFlowerRequest"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse">
+            <summary>
+            <c>FlowerResponse</c> model
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.op_Implicit(FlowerStore.Services.Flowers.Models.FlowerModel)~FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse">
+            <summary>
+            Convert <see cref="T:FlowerStore.Services.Flowers.Models.FlowerModel"/> to <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse"/>
+            </summary>
+            <param name="flowerModel"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest">
+            <summary>
+            <c>UpdateFlowerRequest</c> model
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest)~FlowerStore.Services.Flowers.Models.UpdateFlowerModel">
+            <summary>
+            Convert <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest"/> to <see cref="T:FlowerStore.Services.Flowers.Models.UpdateFlowerModel"/>
+            </summary>
+            <param name="updateFlowerRequest"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.TestApiController">
+            <summary>
+            TestApi controller v1
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.TestApiController.Get">
+            <summary>
+            Test 
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
