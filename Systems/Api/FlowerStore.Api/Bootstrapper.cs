@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowerStore.Services.Flowers;
+using FlowerStore.Services.UserAccount;
 
 namespace FlowerStore.Api
 {
@@ -20,8 +21,8 @@ namespace FlowerStore.Api
         {
             services
                 .AddFlowerService()
-                ;
-            
+                .AddUserAccountService()
+            ;
             return services;
         }
     }

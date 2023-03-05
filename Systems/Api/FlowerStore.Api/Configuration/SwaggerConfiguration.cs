@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlowerStore.Common.Security;
 using FlowerStore.Services.Settings;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace FlowerStore.Api.Configuration;
 
@@ -18,12 +21,13 @@ public static class SwaggerConfiguration
     /// <summary>
     /// Add Swagger
     /// </summary>
+    /// <param name="identitySettings"></param>
     /// <param name="services"></param>
-    /// <param name="settings"></param>
+    /// <param name="swaggerSettings"></param>
     /// <returns></returns>
-    public static IServiceCollection AddAppSwagger(this IServiceCollection services, SwaggerSettings? settings)
+    public static IServiceCollection AddAppSwagger(this IServiceCollection services, IdentitySettings identitySettings, SwaggerSettings? swaggerSettings)
     {
-        if (!(settings?.Enabled ?? false))
+        if (!(swaggerSettings?.Enabled ?? false))
         {
             return services;
         }
@@ -49,7 +53,47 @@ public static class SwaggerConfiguration
             var xmlDocFile = "api.xml";
             var xmlDocFilePath = Path.Combine(AppContext.BaseDirectory, xmlDocFile);
             options.IncludeXmlComments(xmlDocFilePath, true);
+
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            {
+                Name = "Bearer",
+                Type = SecuritySchemeType.OAuth2,
+                Scheme = "oauth2",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Flows = new OpenApiOAuthFlows
+                {
+                    Password = new OpenApiOAuthFlow
+                    {
+                        TokenUrl = new Uri($"{identitySettings.Url}/connect/token"),
+                        Scopes = new Dictionary<string, string>
+                        {
+                            { AppScopes.FlowersRead, "FlowerRead" },
+                            { AppScopes.FlowersWrite, "FlowerWrite" }
+                        }
+                    }
+                }
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "oauth2"
+                        }
+                    },
+                    new List<string>()
+                }
+            });
+
+            options.UseOneOfForPolymorphism();
         });
+
+
         return services;
     }
 

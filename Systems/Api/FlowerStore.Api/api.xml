@@ -16,17 +16,23 @@
             <param name="services"></param>
             <returns></returns>
         </member>
+        <member name="T:FlowerStore.Api.Configuration.AuthConfiguration">
+            <summary>
+            Authentication and Authorization config
+            </summary>
+        </member>
         <member name="T:FlowerStore.Api.Configuration.SwaggerConfiguration">
             <summary>
             Swagger configuration class
             </summary>
         </member>
-        <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,FlowerStore.Services.Settings.SwaggerSettings)">
+        <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,FlowerStore.Services.Settings.IdentitySettings,FlowerStore.Services.Settings.SwaggerSettings)">
             <summary>
             Add Swagger
             </summary>
+            <param name="identitySettings"></param>
             <param name="services"></param>
-            <param name="settings"></param>
+            <param name="swaggerSettings"></param>
             <returns></returns>
         </member>
         <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.UseAppSwagger(Microsoft.AspNetCore.Builder.WebApplication,FlowerStore.Services.Settings.SwaggerSettings)">
@@ -35,6 +41,89 @@
             </summary>
             <param name="app"></param>
             <param name="settings"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.AccountsController">
+            <summary>
+            Accounts controller
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.#ctor(Microsoft.Extensions.Logging.ILogger{FlowerStore.Api.Controllers.v1.Accounts.AccountsController},FlowerStore.Services.UserAccount.IUserAccountService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger"></param>
+            <param name="userAccountService"></param>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.Register(FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest)">
+            <summary>
+            Register new user
+            </summary>
+            <param name="request">User info</param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest">
+            <summary>
+            RegisterUserAccountRequest
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.Name">
+            <summary>
+            Name
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.Email">
+            <summary>
+            Email
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.Password">
+            <summary>
+            Password
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.ConfirmPassword">
+            <summary>
+            ConfirmPassword
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest)~FlowerStore.Services.UserAccount.Models.RegisterAccountModel">
+            <summary>
+            Converts <c>RegisterUserAccountRequest</c> to <c>RegisterAccountModel</c>
+            </summary>
+            <param name="registerUser"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse">
+            <summary>
+            UserAccountResponse
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.Id">
+            <summary>
+            User Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.Name">
+            <summary>
+            User name
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.Email">
+            <summary>
+            User email
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.op_Implicit(FlowerStore.Services.UserAccount.Models.UserAccountModel)~FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse">
+            <summary>
+            Converts <c>UserAccountModel</c> to <c>UserAccountResponse</c>
+            </summary>
+            <param name="model"></param>
         </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Flowers.FlowersController">
             <summary>
@@ -45,12 +134,13 @@
             <response code="403">Forbidden</response>
             <response code="404">Not Found</response>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.#ctor(FlowerStore.Services.Flowers.IFlowerService,Microsoft.Extensions.Logging.ILogger{FlowerStore.Api.Controllers.v1.Flowers.FlowersController})">
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.#ctor(Microsoft.AspNetCore.Identity.UserManager{FlowerStore.Context.Entities.User},FlowerStore.Services.Flowers.IFlowerService,Microsoft.Extensions.Logging.ILogger{FlowerStore.Api.Controllers.v1.Flowers.FlowersController})">
             <summary>
             Constructor
             </summary>
             <param name="flowerService"></param>
             <param name="logger"></param>
+            <param name="userManager"></param>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.GetFlowersAsync(System.Int32,System.Int32)">
             <summary>
@@ -110,6 +200,21 @@
             Convert <see cref="T:FlowerStore.Services.Flowers.Models.FlowerModel"/> to <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse"/>
             </summary>
             <param name="flowerModel"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowersData">
+            <summary>
+            Flowers data
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowersData.#ctor(System.Collections.Generic.IEnumerable{FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="data"></param>
+            <param name="page"></param>
+            <param name="limit"></param>
+            <param name="totalElements"></param>
+            <returns></returns>
         </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest">
             <summary>

@@ -7,33 +7,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Systems", "Systems", "{FB8F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{3FC0A80E-36E4-4FDF-8088-AF973D6C4AC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerStore.Api", "Systems\Api\FlowerStore.Api\FlowerStore.Api.csproj", "{D06C976B-6432-425B-A514-FA46325229CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Api", "Systems\Api\FlowerStore.Api\FlowerStore.Api.csproj", "{D06C976B-6432-425B-A514-FA46325229CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{44083705-A731-4A71-8D23-BB4AF9B9C3DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSettings", "Shared\AppSettings\AppSettings.csproj", "{6767B46F-6B08-4D5F-BA2D-A3DBB3654CA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppSettings", "Shared\AppSettings\AppSettings.csproj", "{6767B46F-6B08-4D5F-BA2D-A3DBB3654CA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{932BF028-2DFD-4F15-8A42-5909F59DFDAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerStore.Services.Settings", "Services\FlowerStore.Services.Settings\FlowerStore.Services.Settings.csproj", "{C2F45A1A-3CA5-4043-9F97-82841E8C7E07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Services.Settings", "Services\FlowerStore.Services.Settings\FlowerStore.Services.Settings.csproj", "{C2F45A1A-3CA5-4043-9F97-82841E8C7E07}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{22E2F069-15E2-4A81-854C-F60546C49BBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerStore.Context", "Data\FlowerStore.Context\FlowerStore.Context.csproj", "{A70D8FF5-53EF-457D-925A-16BBE5EA1215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context", "Data\FlowerStore.Context\FlowerStore.Context.csproj", "{A70D8FF5-53EF-457D-925A-16BBE5EA1215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerStore.Context.Entities", "Data\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj", "{85793B04-65CC-4F30-8051-54908BD764C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Entities", "Data\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj", "{85793B04-65CC-4F30-8051-54908BD764C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerStore.Services.Flowers", "Services\FlowerStore.Services.Flowers\FlowerStore.Services.Flowers.csproj", "{FD40008D-8426-408C-89A1-3996C76554B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Services.Flowers", "Services\FlowerStore.Services.Flowers\FlowerStore.Services.Flowers.csproj", "{FD40008D-8426-408C-89A1-3996C76554B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerStore.Common", "Shared\FlowerStore.Common\FlowerStore.Common.csproj", "{335DDC0F-7485-4C07-95D4-DE44AD36960E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Common", "Shared\FlowerStore.Common\FlowerStore.Common.csproj", "{335DDC0F-7485-4C07-95D4-DE44AD36960E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{32D0C10E-23A3-4EA7-A3B5-2B47DCF22389}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.MigrationsMSSQL", "Data\Migrations\FlowerStore.Context.MigrationsMSSQL\FlowerStore.Context.MigrationsMSSQL.csproj", "{BBE5F9F6-2C1B-452D-80A0-FA717C9E7BEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.MigrationsPostgreSQL", "Data\Migrations\FlowerStore.Context.MigrationsPostgreSQL\FlowerStore.Context.MigrationsPostgreSQL.csproj", "{4810AA5B-FFF6-4B31-8AE4-EA7BABFC3EB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Services.UserAccount", "Services\FlowerStore.Services.UserAccount\FlowerStore.Services.UserAccount.csproj", "{CBD8781A-3251-450E-886A-AEBB598B34E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{932F843E-F2DD-4EC7-A1B4-6360989EFCC2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Identity", "Systems\Identity\FlowerStore.Identity\FlowerStore.Identity.csproj", "{EDBB6E18-10EC-417C-AA7C-2F10D1421ABD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D06C976B-6432-425B-A514-FA46325229CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -64,6 +73,25 @@ Global
 		{335DDC0F-7485-4C07-95D4-DE44AD36960E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{335DDC0F-7485-4C07-95D4-DE44AD36960E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{335DDC0F-7485-4C07-95D4-DE44AD36960E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBE5F9F6-2C1B-452D-80A0-FA717C9E7BEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBE5F9F6-2C1B-452D-80A0-FA717C9E7BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBE5F9F6-2C1B-452D-80A0-FA717C9E7BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBE5F9F6-2C1B-452D-80A0-FA717C9E7BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4810AA5B-FFF6-4B31-8AE4-EA7BABFC3EB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4810AA5B-FFF6-4B31-8AE4-EA7BABFC3EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4810AA5B-FFF6-4B31-8AE4-EA7BABFC3EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4810AA5B-FFF6-4B31-8AE4-EA7BABFC3EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBD8781A-3251-450E-886A-AEBB598B34E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBD8781A-3251-450E-886A-AEBB598B34E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBD8781A-3251-450E-886A-AEBB598B34E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBD8781A-3251-450E-886A-AEBB598B34E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDBB6E18-10EC-417C-AA7C-2F10D1421ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDBB6E18-10EC-417C-AA7C-2F10D1421ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDBB6E18-10EC-417C-AA7C-2F10D1421ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBB6E18-10EC-417C-AA7C-2F10D1421ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3FC0A80E-36E4-4FDF-8088-AF973D6C4AC9} = {FB8F68F2-2D70-4E64-ABEF-E4A08EE55FE1}
@@ -74,5 +102,14 @@ Global
 		{85793B04-65CC-4F30-8051-54908BD764C7} = {22E2F069-15E2-4A81-854C-F60546C49BBA}
 		{FD40008D-8426-408C-89A1-3996C76554B7} = {932BF028-2DFD-4F15-8A42-5909F59DFDAC}
 		{335DDC0F-7485-4C07-95D4-DE44AD36960E} = {44083705-A731-4A71-8D23-BB4AF9B9C3DB}
+		{32D0C10E-23A3-4EA7-A3B5-2B47DCF22389} = {22E2F069-15E2-4A81-854C-F60546C49BBA}
+		{BBE5F9F6-2C1B-452D-80A0-FA717C9E7BEE} = {32D0C10E-23A3-4EA7-A3B5-2B47DCF22389}
+		{4810AA5B-FFF6-4B31-8AE4-EA7BABFC3EB7} = {32D0C10E-23A3-4EA7-A3B5-2B47DCF22389}
+		{CBD8781A-3251-450E-886A-AEBB598B34E3} = {932BF028-2DFD-4F15-8A42-5909F59DFDAC}
+		{932F843E-F2DD-4EC7-A1B4-6360989EFCC2} = {FB8F68F2-2D70-4E64-ABEF-E4A08EE55FE1}
+		{EDBB6E18-10EC-417C-AA7C-2F10D1421ABD} = {932F843E-F2DD-4EC7-A1B4-6360989EFCC2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0FEC6A87-63A6-4FAB-9990-6D89FC5E6D78}
 	EndGlobalSection
 EndGlobal

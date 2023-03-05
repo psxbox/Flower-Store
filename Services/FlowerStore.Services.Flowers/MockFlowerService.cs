@@ -19,22 +19,22 @@ namespace FlowerStore.Services.Flowers
         private List<Flower> GenerateFlowers()
         {
             return new() {
-                new Flower 
+                new Flower
                 {
                     Id = 1,
                     Name = "Гвоздика"
                 },
-                new Flower 
+                new Flower
                 {
                     Id = 2,
                     Name = "Лилия"
                 },
-                new Flower 
+                new Flower
                 {
                     Id = 3,
                     Name = "Роза"
                 },
-                new Flower 
+                new Flower
                 {
                     Id = 4,
                     Name = "Ромашка"
@@ -45,7 +45,8 @@ namespace FlowerStore.Services.Flowers
         public Task<FlowerModel> AddFlower(AddFlowerModel model)
         {
             Flower flower = model;
-            if (flower.Id == 0) {
+            if (flower.Id == 0)
+            {
                 flower.Id = _flowers.Max(f => f.Id) + 1;
             }
             _flowers.Add(flower);
@@ -61,7 +62,7 @@ namespace FlowerStore.Services.Flowers
         public Task<FlowerModel?> GetFlower(int id)
         {
             var flower = _flowers.FirstOrDefault(item => item.Id == id);
-            
+
             return Task.FromResult((FlowerModel?)flower);
         }
 
@@ -81,7 +82,7 @@ namespace FlowerStore.Services.Flowers
 
             if (flower is null)
                 throw new($"The flower with id:{id} not found.");
-            
+
             flower.Name = model.Name;
             flower.Desription = model.Desription;
             return Task.CompletedTask;

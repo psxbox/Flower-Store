@@ -10,7 +10,7 @@ public static class Bootstrapper
 {
     public static IServiceCollection AddFlowerService(this IServiceCollection services)
     {
-        services.AddSingleton<IFlowerService, MockFlowerService>();
+        services.AddSingleton<IFlowerService, FlowerService>();
 
         return services;
     }

@@ -12,12 +12,13 @@ public class UpdateFlowerModel
     public string Name { get; set; } = string.Empty;
     public string Desription { get; set; } = string.Empty;
 
-    public static implicit operator UpdateFlowerModel(Flower flower)
+    public static implicit operator Flower(UpdateFlowerModel flower)
     {
-        return new UpdateFlowerModel
+        return new Flower
         {
             Name = flower.Name,
             Desription = flower.Desription
         };
     }
+
 }

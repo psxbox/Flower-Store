@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using FlowerStore.Api.Controllers.v1.Flowers.Models;
 using FlowerStore.Common.Responses;
 using FlowerStore.Services.Flowers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using FlowerStore.Context.Entities;
 
 namespace FlowerStore.Api.Controllers.v1.Flowers
 {
@@ -18,20 +21,29 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
     /// <response code="404">Not Found</response>
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Produces("application/json")]
+    [ApiVersion("1.0")]
+    [Authorize]
+
     public class FlowersController : ControllerBase
     {
+        private readonly UserManager<User> userManager;
         private readonly IFlowerService flowerService;
         private readonly ILogger<FlowersController> logger;
+        //private readonly User? currentUser;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="flowerService"></param>
         /// <param name="logger"></param>
-        public FlowersController(IFlowerService flowerService, ILogger<FlowersController> logger)
+        /// <param name="userManager"></param>
+        public FlowersController(UserManager<User> userManager, IFlowerService flowerService, ILogger<FlowersController> logger)
         {
+            this.userManager = userManager;
             this.flowerService = flowerService;
-            this.logger = logger;
+            this.logger = logger;    
+            //currentUser = userManager.GetUserAsync(HttpContext.User).Result;
         }
 
         /// <summary>
@@ -40,14 +52,14 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         /// <param name="page">The page</param>
         /// <param name="limit">Number of items in the page</param>
         /// <returns>List of FlowerResponse</returns>
-        [ProducesResponseType(typeof(ElementsResponse<FlowerResponse>), 200)]
+        [ProducesResponseType(typeof(FlowersData), 200)]
         [HttpGet]
-        public async Task<ElementsResponse<FlowerResponse>> GetFlowersAsync([FromQuery] int page = 0, [FromQuery] int limit = 10)
+        public async Task<FlowersData?> GetFlowersAsync([FromQuery] int page = 0, [FromQuery] int limit = 10)
         {
             var flowers = await flowerService.GetFlowers(page, limit);
             var response = flowers.Select(f => (FlowerResponse)f);
             var itemsCount = await flowerService.GetFlowersCount();
-            var elementsResponse = ElementsResponse<FlowerResponse>.GetElementsResponse(response, page, limit, itemsCount);
+            var elementsResponse = new FlowersData(response, page, limit, itemsCount);
 
             return elementsResponse;
         }

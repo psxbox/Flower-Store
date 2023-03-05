@@ -1,0 +1,21 @@
+﻿@page
+@model FlowerStore.Api.Pages.IndexModel
+@{
+    ViewBag.Title = "API";
+}
+
+<div class="stamp"></div>
+
+<div style="text-align:left; margin: 3pt;">
+    <h1>FlowerStore API</h1>
+    <div style="margin-top: 3pt;">
+        <a href="/health">Check health</a>
+        @if (Model.OpenApiEnabled)
+        {
+            <a href="/swagger">Swagger</a>
+        }
+    </div>
+    <div class="text-info" style="position: fixed; right: 15px; bottom: 15px; color: navy !important;">
+        @Model.Version
+    </div>
+</div>

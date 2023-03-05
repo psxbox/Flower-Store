@@ -11,18 +11,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.MigrationsMSSQL\FlowerStore.Context.MigrationsMSSQL.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.MigrationsPostgreSQL\FlowerStore.Context.MigrationsPostgreSQL.csproj" />
     <ProjectReference Include="..\..\..\Shared\AppSettings\AppSettings.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Settings\FlowerStore.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Flowers\FlowerStore.Services.Flowers.csproj" />
     <ProjectReference Include="..\..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />
+    <ProjectReference Include="..\..\..\Services\FlowerStore.Services.UserAccount\FlowerStore.Services.UserAccount.csproj" />
+    <ProjectReference Include="..\..\..\Data\FlowerStore.Context\FlowerStore.Context.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>
