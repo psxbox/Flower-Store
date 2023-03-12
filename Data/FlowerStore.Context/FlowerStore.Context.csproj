@@ -7,8 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,8 +20,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />
 		<ProjectReference Include="..\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj" />
 		<ProjectReference Include="..\..\Shared\AppSettings\AppSettings.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Migrations\SQLite\" />
 	</ItemGroup>
 
 </Project>

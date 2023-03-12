@@ -30,9 +30,30 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         public string? Email { get; set; }
 
         /// <summary>
-        /// Full name
+        /// Email is confirmed
         /// </summary>
-        public string? FullName { get; set; }
+        public bool EmailConfirmed { get; set; }
+
+        /// <summary>
+        /// First name
+        /// </summary>
+        public string? FirstName { get; set; }
+
+        /// <summary>
+        /// Last name
+        /// </summary>
+        public string? LastName { get; set; }
+
+        /// <summary>
+        /// Phone number
+        /// </summary>
+        /// <value></value>
+        public string? PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Phone number confirmation
+        /// </summary>
+        public bool PhoneNumberConfirmed { get; set; }
 
         /// <summary>
         /// Converts <c>UserAccountModel</c> to <c>UserAccountResponse</c>
@@ -45,7 +66,11 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
                 Id = model.Id,
                 Name = model.Name,
                 Email = model.Email,
-                FullName = model.FullName
+                EmailConfirmed = model.EmailConfirmed,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                PhoneNumberConfirmed = model.PhoneNumberConfirmed
             };
         }
     }

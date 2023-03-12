@@ -8,6 +8,8 @@ namespace FlowerStore.Context.Entities
 {
     public class Flower : BaseEntity
     {
+        public virtual User? User { get; set; }
+
         [Required(ErrorMessage = "Flower name is required"), StringLength(50)]
         public string? Name { get; set; }
         public string? Desription { get; set; }

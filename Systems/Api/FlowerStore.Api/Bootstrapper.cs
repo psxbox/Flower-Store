@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowerStore.Services.Flowers;
+using FlowerStore.Services.Login;
 using FlowerStore.Services.UserAccount;
 
 namespace FlowerStore.Api
@@ -22,6 +23,7 @@ namespace FlowerStore.Api
             services
                 .AddFlowerService()
                 .AddUserAccountService()
+                .AddAppLogin()
             ;
             return services;
         }

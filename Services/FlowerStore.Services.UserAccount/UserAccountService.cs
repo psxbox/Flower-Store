@@ -2,58 +2,64 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using FlowerStore.Common;
 using FlowerStore.Common.Exceptions;
+using FlowerStore.Context;
 using FlowerStore.Context.Entities;
 using FlowerStore.Services.UserAccount.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlowerStore.Services.UserAccount
 {
     public class UserAccountService : IUserAccountService
     {
-        private readonly UserManager<User> userManager;
-        public UserAccountService(UserManager<User> userManager)
+        private readonly MainDbContext context;
+
+        public UserAccountService(MainDbContext context)
         {
-            this.userManager = userManager;
+            this.context = context;
         }
 
         public async Task<UserAccountModel> Create(RegisterAccountModel model)
         {
-            var context = new ValidationContext(model);
-            bool isValid = Validator.TryValidateObject(model, context, null);
+            var validationContext = new ValidationContext(model);
+            bool isValid = Validator.TryValidateObject(model, validationContext, null);
 
             if (!isValid) throw new ValidationException("Model is invalid", null, model);
 
-            var user = await userManager.FindByEmailAsync(model.Email!);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
 
             if (user != null)
-                throw new ProcessException($"User account with email {model.Email} already exist.");
+                throw new ProcessException($"User account with name {model.UserName} already exist.");
 
             user = new User()
             {
                 Status = UserStatus.Active,
-                FullName = model.Name,
-                UserName = model.Name,
+                UserName = model.UserName,
                 Email = model.Email,
                 EmailConfirmed = true,
                 PhoneNumber = null,
                 PhoneNumberConfirmed = false,
+                PasswordHash = model.Password?.GetMD5(),
             };
 
-            var result = await userManager.CreateAsync(user, model.Password!);
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+            return user!;
+        }
 
-            if (!result.Succeeded)
-                throw new ProcessException($"Creating user account is wrong. {
-                    string.Join(", ", result.Errors.Select(e => e.Description))
-                }");
-            
+        public async Task<UserAccountModel?> Get(string id)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id);
             return user;
         }
 
         public Task<IEnumerable<UserAccountModel>> GetAll()
         {
-            return Task.FromResult(userManager.Users.ToList().Select(u => (UserAccountModel)u));
+            return Task.FromResult(context.Users.ToList().Select(u => (UserAccountModel)u!));
         }
+
     }
 }

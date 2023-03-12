@@ -7,8 +7,17 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace FlowerStore.Api.Configuration
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SelfHealthCheck : IHealthCheck
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             var assembly = Assembly.Load("FlowerStore.Api");

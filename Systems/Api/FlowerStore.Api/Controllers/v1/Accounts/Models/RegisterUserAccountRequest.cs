@@ -51,7 +51,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         {
             return new()
             {
-                Name = registerUser.Name,
+                UserName = registerUser.Name,
                 Email = registerUser.Email,
                 Password = registerUser.Password,
                 ConfirmPassword = registerUser.ConfirmPassword

@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using FlowerStore.Context;
 using FlowerStore.Context.Entities;
 using FlowerStore.Services.Settings;
-using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FlowerStore.Api.Configuration;
 
@@ -16,53 +18,39 @@ namespace FlowerStore.Api.Configuration;
 /// </summary>
 public static class AuthConfiguration
 {
-    public static IServiceCollection AddAppAuth(this IServiceCollection services, IdentitySettings settings)
+    /// <summary>
+    /// Add application authentication
+    /// </summary>
+    /// <param name="services">Service collection</param>
+    /// <param name="configuration">Configuration</param>
+    /// <returns></returns>
+    public static IServiceCollection AddAppAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        IdentityModelEventSource.ShowPII = true;
-
-        services.AddIdentity<User, UserRole>(opt =>
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
         {
-            opt.Password.RequiredLength = 4;
-            opt.Password.RequireDigit = false;
-            opt.Password.RequireLowercase = false;
-            opt.Password.RequireUppercase = false;
-            opt.Password.RequireNonAlphanumeric = false;
-        })
-            .AddRoles<UserRole>()
-            .AddEntityFrameworkStores<MainDbContext>()
-            .AddUserManager<UserManager<User>>()
-            .AddDefaultTokenProviders();
-
-        services.AddAuthentication(opt =>
-        {
-            opt.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-            opt.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-            opt.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-        })
-            .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, opt =>
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                opt.RequireHttpsMetadata = settings.Url?.StartsWith("https://") ?? false;
-                opt.Authority = settings.Url;
-                opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = false,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-                opt.Audience = "api";
-            });
-
-        services.AddAuthorization(opt =>
-        {
-            opt.AddPolicy("Admins", policy => policy.RequireRole("Admin"));
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidAudience = configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? 
+                    Guid.NewGuid().ToString()))
+            };
         });
+
+        services.AddAuthorization();
 
         return services;
     }
 
+    /// <summary>
+    /// Use application authorization
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
     public static IApplicationBuilder UseAppAuth(this IApplicationBuilder app)
     {
         app.UseAuthentication();

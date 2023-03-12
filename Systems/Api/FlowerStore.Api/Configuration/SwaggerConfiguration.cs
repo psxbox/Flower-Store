@@ -21,11 +21,10 @@ public static class SwaggerConfiguration
     /// <summary>
     /// Add Swagger
     /// </summary>
-    /// <param name="identitySettings"></param>
     /// <param name="services"></param>
     /// <param name="swaggerSettings"></param>
     /// <returns></returns>
-    public static IServiceCollection AddAppSwagger(this IServiceCollection services, IdentitySettings identitySettings, SwaggerSettings? swaggerSettings)
+    public static IServiceCollection AddAppSwagger(this IServiceCollection services, SwaggerSettings? swaggerSettings)
     {
         if (!(swaggerSettings?.Enabled ?? false))
         {
@@ -48,34 +47,22 @@ public static class SwaggerConfiguration
             });
 
 
-        services.AddSwaggerGen(options =>
+        services.AddSwaggerGen(c =>
         {
             var xmlDocFile = "api.xml";
             var xmlDocFilePath = Path.Combine(AppContext.BaseDirectory, xmlDocFile);
-            options.IncludeXmlComments(xmlDocFilePath, true);
+            c.IncludeXmlComments(xmlDocFilePath, true);
 
-            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            c.AddSecurityDefinition("bearerAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
             {
-                Name = "Bearer",
-                Type = SecuritySchemeType.OAuth2,
-                Scheme = "oauth2",
+                Name = "Authorization",
+                Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                Scheme = "bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Flows = new OpenApiOAuthFlows
-                {
-                    Password = new OpenApiOAuthFlow
-                    {
-                        TokenUrl = new Uri($"{identitySettings.Url}/connect/token"),
-                        Scopes = new Dictionary<string, string>
-                        {
-                            { AppScopes.FlowersRead, "FlowerRead" },
-                            { AppScopes.FlowersWrite, "FlowerWrite" }
-                        }
-                    }
-                }
+                Description = "JWT Authorization header using the Bearer scheme."
             });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {
                 {
                     new OpenApiSecurityScheme
@@ -83,14 +70,14 @@ public static class SwaggerConfiguration
                         Reference = new OpenApiReference
                         {
                             Type = ReferenceType.SecurityScheme,
-                            Id = "oauth2"
+                            Id = "bearerAuth"
                         }
                     },
-                    new List<string>()
+                    Array.Empty<string>()
                 }
             });
 
-            options.UseOneOfForPolymorphism();
+            c.UseOneOfForPolymorphism();
         });
 
 

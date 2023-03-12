@@ -6,8 +6,16 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace FlowerStore.Api.Configuration
 {
+    /// <summary>
+    /// Versioning configuration
+    /// </summary>
     public static class VersioningConfiguration
     {
+        /// <summary>
+        /// Add app versioning configuration
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddAppVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(opt =>

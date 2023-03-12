@@ -11,16 +11,26 @@ namespace FlowerStore.Services.UserAccount.Models
         public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public string? FullName { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
 
-        public static implicit operator UserAccountModel(User user)
+        public static implicit operator UserAccountModel?(User? user)
         {
+            if (user == null) return null;
+
             return new()
             {
                 Id = user.Id,
                 Name = user.UserName,
                 Email = user.Email,
-                FullName = user.FullName
+                EmailConfirmed = user.EmailConfirmed,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed
             };
         }
     }

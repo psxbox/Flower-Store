@@ -9,7 +9,7 @@ namespace FlowerStore.Services.UserAccount.Models
     public class RegisterAccountModel
     {
         [Required(ErrorMessage = "User name is required")]
-        public string? Name { get; set; }
+        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Email is required"), EmailAddress(ErrorMessage = "Incorrect email")]
         public string? Email { get; set; }

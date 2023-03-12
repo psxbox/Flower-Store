@@ -25,25 +25,20 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
     [ApiVersion("1.0")]
     [Authorize]
 
-    public class FlowersController : ControllerBase
+    public class FlowersController : BaseController
     {
-        private readonly UserManager<User> userManager;
         private readonly IFlowerService flowerService;
         private readonly ILogger<FlowersController> logger;
-        //private readonly User? currentUser;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="flowerService"></param>
         /// <param name="logger"></param>
-        /// <param name="userManager"></param>
-        public FlowersController(UserManager<User> userManager, IFlowerService flowerService, ILogger<FlowersController> logger)
+        public FlowersController(IFlowerService flowerService, ILogger<FlowersController> logger)
         {
-            this.userManager = userManager;
             this.flowerService = flowerService;
             this.logger = logger;    
-            //currentUser = userManager.GetUserAsync(HttpContext.User).Result;
         }
 
         /// <summary>
@@ -57,7 +52,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         public async Task<FlowersData?> GetFlowersAsync([FromQuery] int page = 0, [FromQuery] int limit = 10)
         {
             var flowers = await flowerService.GetFlowers(page, limit);
-            var response = flowers.Select(f => (FlowerResponse)f);
+            var response = flowers.Select(f => (FlowerResponse)f!);
             var itemsCount = await flowerService.GetFlowersCount();
             var elementsResponse = new FlowersData(response, page, limit, itemsCount);
 
@@ -84,7 +79,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         /// <param name="addFlowerRequest">Flower data</param>
         /// <returns>Added flower</returns>
         [HttpPost]
-        public async Task<FlowerResponse> AddFlowerAsync([FromBody] AddFlowerRequest addFlowerRequest)
+        public async Task<FlowerResponse?> AddFlowerAsync([FromBody] AddFlowerRequest addFlowerRequest)
         {
             return await flowerService.AddFlower(addFlowerRequest);
         }

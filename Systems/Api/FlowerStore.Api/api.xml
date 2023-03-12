@@ -21,16 +21,61 @@
             Authentication and Authorization config
             </summary>
         </member>
+        <member name="M:FlowerStore.Api.Configuration.AuthConfiguration.AddAppAuth(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Add application authentication
+            </summary>
+            <param name="services">Service collection</param>
+            <param name="configuration">Configuration</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.AuthConfiguration.UseAppAuth(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Use application authorization
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Configuration.HealthCheckConfiguration">
+            <summary>
+            HealthCheck configuration
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.HealthCheckConfiguration.AddAppHealthChecks(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add app HealthCheck
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.HealthCheckConfiguration.UseAppHealthChecks(Microsoft.AspNetCore.Builder.WebApplication)">
+            <summary>
+            Use app HealthCheck
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Configuration.SelfHealthCheck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.SelfHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:FlowerStore.Api.Configuration.SwaggerConfiguration">
             <summary>
             Swagger configuration class
             </summary>
         </member>
-        <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,FlowerStore.Services.Settings.IdentitySettings,FlowerStore.Services.Settings.SwaggerSettings)">
+        <member name="M:FlowerStore.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,FlowerStore.Services.Settings.SwaggerSettings)">
             <summary>
             Add Swagger
             </summary>
-            <param name="identitySettings"></param>
             <param name="services"></param>
             <param name="swaggerSettings"></param>
             <returns></returns>
@@ -41,6 +86,29 @@
             </summary>
             <param name="app"></param>
             <param name="settings"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Configuration.VersioningConfiguration">
+            <summary>
+            Versioning configuration
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Configuration.VersioningConfiguration.AddAppVersioning(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add app versioning configuration
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.BaseController">
+            <summary>
+            Base controller
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.BaseController.GetUser">
+            <summary>
+            Gets user id
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Accounts.AccountsController">
             <summary>
@@ -125,9 +193,30 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.FullName">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.EmailConfirmed">
             <summary>
-            Full name
+            Email is confirmed
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.FirstName">
+            <summary>
+            First name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.LastName">
+            <summary>
+            Last name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.PhoneNumber">
+            <summary>
+            Phone number
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.PhoneNumberConfirmed">
+            <summary>
+            Phone number confirmation
             </summary>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.op_Implicit(FlowerStore.Services.UserAccount.Models.UserAccountModel)~FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse">
@@ -145,13 +234,12 @@
             <response code="403">Forbidden</response>
             <response code="404">Not Found</response>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.#ctor(Microsoft.AspNetCore.Identity.UserManager{FlowerStore.Context.Entities.User},FlowerStore.Services.Flowers.IFlowerService,Microsoft.Extensions.Logging.ILogger{FlowerStore.Api.Controllers.v1.Flowers.FlowersController})">
+        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.#ctor(FlowerStore.Services.Flowers.IFlowerService,Microsoft.Extensions.Logging.ILogger{FlowerStore.Api.Controllers.v1.Flowers.FlowersController})">
             <summary>
             Constructor
             </summary>
             <param name="flowerService"></param>
             <param name="logger"></param>
-            <param name="userManager"></param>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.FlowersController.GetFlowersAsync(System.Int32,System.Int32)">
             <summary>
@@ -195,6 +283,16 @@
             <c>AddFlowerRequest</c> model
             </summary>
         </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Name">
+            <summary>
+            Flower name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Desription">
+            <summary>
+            Flower description
+            </summary>
+        </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest)~FlowerStore.Services.Flowers.Models.AddFlowerModel">
             <summary>
             Converts <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest"/> to <see cref="T:FlowerStore.Services.Flowers.Models.AddFlowerModel"/>
@@ -204,6 +302,21 @@
         <member name="T:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse">
             <summary>
             <c>FlowerResponse</c> model
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Id">
+            <summary>
+            Flower id
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Name">
+            <summary>
+            Flower name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Desription">
+            <summary>
+            Flower description
             </summary>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.op_Implicit(FlowerStore.Services.Flowers.Models.FlowerModel)~FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse">
@@ -232,22 +345,80 @@
             <c>UpdateFlowerRequest</c> model
             </summary>
         </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Name">
+            <summary>
+            Flower name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Desription">
+            <summary>
+            Flower description
+            </summary>
+        </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest)~FlowerStore.Services.Flowers.Models.UpdateFlowerModel">
             <summary>
             Convert <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest"/> to <see cref="T:FlowerStore.Services.Flowers.Models.UpdateFlowerModel"/>
             </summary>
             <param name="updateFlowerRequest"></param>
         </member>
-        <member name="T:FlowerStore.Api.Controllers.v1.TestApiController">
+        <member name="T:FlowerStore.Api.Controllers.v1.Login.LoginController">
             <summary>
-            TestApi controller v1
+            Login controller
             </summary>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.TestApiController.Get">
+        <member name="M:FlowerStore.Api.Controllers.v1.Login.LoginController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,FlowerStore.Services.Login.ILoginService)">
             <summary>
-            Test 
+            Logout controller constructor
+            </summary>
+            <param name="config"></param>
+            <param name="loginService"></param>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Login.LoginController.LoginAsync(FlowerStore.Api.Controllers.v1.Login.Models.UserLogin)">
+            <summary>
+            Login
+            </summary>
+            <param name="userLogin">User login info</param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Login.Models.UserLogin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Login.Models.UserLogin.UserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Login.Models.UserLogin.Password">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:FlowerStore.Api.Pages.IndexModel">
+            <summary>
+            Index page model
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Pages.IndexModel.OpenApiEnabled">
+            <summary>
+            OpenApi enabled property
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Pages.IndexModel.Version">
+            <summary>
+            Vesion property
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Pages.IndexModel.#ctor(FlowerStore.Services.Settings.SwaggerSettings)">
+            <summary>
+            
+            </summary>
+            <param name="swaggerSettings"></param>
+        </member>
+        <member name="M:FlowerStore.Api.Pages.IndexModel.OnGet">
+            <summary>
+            
+            </summary>
         </member>
     </members>
 </doc>

@@ -10,5 +10,6 @@ namespace FlowerStore.Services.UserAccount
     {
         Task<UserAccountModel> Create(RegisterAccountModel model);
         Task<IEnumerable<UserAccountModel>> GetAll();
+        Task<UserAccountModel?> Get(string id);
     }
 }

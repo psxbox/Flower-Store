@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 var swaggerSettings = AppSettings.Settings.Load<SwaggerSettings>("Swagger", builder.Configuration);
-var identitySettings = AppSettings.Settings.Load<IdentitySettings>("Identity");
+//var identitySettings = AppSettings.Settings.Load<IdentitySettings>("Identity");
 
 var services = builder.Services;
 
@@ -16,7 +16,7 @@ services.AddCors();
 services.AddSingleton(swaggerSettings);
 
 services.AddAppDbContext(builder.Configuration);
-services.AddAppAuth(identitySettings);
+services.AddAppAuth(builder.Configuration);
 
 services.AddRazorPages();
 services.AddControllers(options =>
@@ -27,7 +27,7 @@ services.AddControllers(options =>
 services.AddEndpointsApiExplorer();
 
 services.AddAppHealthChecks();
-services.AddAppSwagger(identitySettings, swaggerSettings);
+services.AddAppSwagger(swaggerSettings);
 services.AddAppVersioning();
 services.RegisterAppServices();
 
@@ -45,5 +45,8 @@ app.UseCors(c =>
 
 app.MapRazorPages();
 app.MapControllers();
+
+DbInitializer.Initialize(app.Services);
+DbSeeder.Execute(app.Services, false);
 
 app.Run();

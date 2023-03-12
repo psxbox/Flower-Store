@@ -11,15 +11,24 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
     /// </summary>
     public class FlowerResponse
     {
+        /// <summary>
+        /// Flower id
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// Flower name
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// Flower description
+        /// </summary>
         public string Desription { get; set; } = string.Empty;
 
         /// <summary>
         /// Convert <see cref="FlowerModel"/> to <see cref="FlowerResponse"/>
         /// </summary>
         /// <param name="flowerModel"></param>
-        public static implicit operator FlowerResponse(FlowerModel? flowerModel)
+        public static implicit operator FlowerResponse?(FlowerModel? flowerModel)
         {
             if (flowerModel is null) return null;
 

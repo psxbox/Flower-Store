@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Login\FlowerStore.Services.Login.csproj" />
     <ProjectReference Include="..\..\..\Shared\AppSettings\AppSettings.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Settings\FlowerStore.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Flowers\FlowerStore.Services.Flowers.csproj" />

@@ -17,7 +17,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts
     [ApiController]
     [Route("api/v{version:apiVersion}/accounts")]
     [ApiVersion("1.0")]
-    public class AccountsController : ControllerBase
+    public class AccountsController : BaseController
     {
         private readonly ILogger<AccountsController> logger;
         private readonly IUserAccountService userAccountService;

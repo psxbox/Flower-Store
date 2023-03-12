@@ -11,10 +11,17 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
     /// <c>AddFlowerRequest</c> model
     /// </summary>
     public class AddFlowerRequest
-    {
+    {   
+        /// <summary>
+        /// Flower name
+        /// </summary>
         [Required(ErrorMessage = "Name is required")]
         [StringLength(50)]
         public string Name { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Flower description
+        /// </summary>
         public string Desription { get; set; } = string.Empty;
 
         /// <summary>
