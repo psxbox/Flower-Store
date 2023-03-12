@@ -22,6 +22,7 @@ public static class IS4Configuration
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
             })
+            .AddRoles<UserRole>()
             .AddEntityFrameworkStores<MainDbContext>()
             .AddUserManager<UserManager<User>>()
             .AddDefaultTokenProviders();

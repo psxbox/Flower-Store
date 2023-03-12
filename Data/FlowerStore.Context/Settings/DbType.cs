@@ -8,6 +8,8 @@ namespace FlowerStore.Context.Settings
     public enum DbType
     {
         MSSQL = 0,
-        PostgreSQL = 1
+        PostgreSQL = 1,
+        SQLite,
+        MySQL
     }
 }

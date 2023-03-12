@@ -22,8 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.MigrationsMSSQL\FlowerStore.Context.MigrationsMSSQL.csproj" />
-    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.MigrationsPostgreSQL\FlowerStore.Context.MigrationsPostgreSQL.csproj" />
     <ProjectReference Include="..\..\..\Shared\AppSettings\AppSettings.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Settings\FlowerStore.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.Flowers\FlowerStore.Services.Flowers.csproj" />

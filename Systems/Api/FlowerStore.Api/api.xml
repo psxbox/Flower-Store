@@ -61,6 +61,12 @@
             <param name="request">User info</param>
             <returns></returns>
         </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.GetAll">
+            <summary>
+            Get all user accounts
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest">
             <summary>
             RegisterUserAccountRequest
@@ -118,6 +124,11 @@
             User email
             </summary>
             <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.FullName">
+            <summary>
+            Full name
+            </summary>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.op_Implicit(FlowerStore.Services.UserAccount.Models.UserAccountModel)~FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse">
             <summary>

@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using FlowerStore.Api.Controllers.v1.Accounts.Models;
 using FlowerStore.Context.Entities;
 using FlowerStore.Services.UserAccount;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlowerStore.Api.Controllers.v1.Accounts
-{   
+{
     /// <summary>
     /// Accounts controller
     /// </summary>
     [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/accounts")]
     [ApiVersion("1.0")]
     public class AccountsController : ControllerBase
     {
@@ -42,6 +43,18 @@ namespace FlowerStore.Api.Controllers.v1.Accounts
         {
             var user = await userAccountService.Create(request);
             return user;
+        }
+
+        /// <summary>
+        /// Get all user accounts
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IEnumerable<UserAccountResponse>> GetAll()
+        {
+            var users = await userAccountService.GetAll();
+            return users.Select(u => (UserAccountResponse)u);
         }
     }
 }

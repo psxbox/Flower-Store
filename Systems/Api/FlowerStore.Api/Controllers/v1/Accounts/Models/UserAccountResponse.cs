@@ -30,6 +30,11 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         public string? Email { get; set; }
 
         /// <summary>
+        /// Full name
+        /// </summary>
+        public string? FullName { get; set; }
+
+        /// <summary>
         /// Converts <c>UserAccountModel</c> to <c>UserAccountResponse</c>
         /// </summary>
         /// <param name="model"></param>
@@ -39,7 +44,8 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
             {
                 Id = model.Id,
                 Name = model.Name,
-                Email = model.Email
+                Email = model.Email,
+                FullName = model.FullName
             };
         }
     }

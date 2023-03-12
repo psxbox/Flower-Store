@@ -24,4 +24,8 @@ app.UseCors(c =>
 
 app.UseAppHealthChecks();
 app.UseIS4();
+
+DbInitializer.Initialize(app.Services);
+DbSeeder.Execute(app.Services, false);
+
 app.Run();

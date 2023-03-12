@@ -12,13 +12,11 @@ namespace FlowerStore.Context
     {
         public static IServiceCollection AddAppDbContext(this IServiceCollection services, IConfiguration? configuration = null)
         {
-            var settings = AppSettings.Settings.Load<DbSettings>("Database", configuration);
-            services.AddSingleton(settings);
+            var dbSettings = AppSettings.Settings.Load<DbSettings>("Database", configuration);
+            if (dbSettings?.ConnectionString == null)
+                throw new Exception("Database settings is not configured!");
 
-            var dbInitOptionsDelegate = DbContextOptionsFactory.Configure(
-                settings.ConnectionString ?? "", settings.Type);
-
-            services.AddDbContextFactory<MainDbContext>(dbInitOptionsDelegate);
+            services.AddDbContext<MainDbContext>(DbContextOptionFactory.Configure(dbSettings.ConnectionString, dbSettings.Type));
 
             return services;
         }

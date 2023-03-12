@@ -34,7 +34,7 @@ namespace FlowerStore.Services.UserAccount
             {
                 Status = UserStatus.Active,
                 FullName = model.Name,
-                UserName = model.Email,
+                UserName = model.Name,
                 Email = model.Email,
                 EmailConfirmed = true,
                 PhoneNumber = null,
@@ -49,6 +49,11 @@ namespace FlowerStore.Services.UserAccount
                 }");
             
             return user;
+        }
+
+        public Task<IEnumerable<UserAccountModel>> GetAll()
+        {
+            return Task.FromResult(userManager.Users.ToList().Select(u => (UserAccountModel)u));
         }
     }
 }

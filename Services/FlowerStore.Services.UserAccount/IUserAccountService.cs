@@ -9,5 +9,6 @@ namespace FlowerStore.Services.UserAccount
     public interface IUserAccountService
     {
         Task<UserAccountModel> Create(RegisterAccountModel model);
+        Task<IEnumerable<UserAccountModel>> GetAll();
     }
 }

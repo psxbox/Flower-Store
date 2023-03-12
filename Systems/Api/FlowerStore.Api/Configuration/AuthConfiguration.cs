@@ -28,16 +28,19 @@ public static class AuthConfiguration
             opt.Password.RequireUppercase = false;
             opt.Password.RequireNonAlphanumeric = false;
         })
+            .AddRoles<UserRole>()
             .AddEntityFrameworkStores<MainDbContext>()
             .AddUserManager<UserManager<User>>()
             .AddDefaultTokenProviders();
 
-        services.AddAuthentication(opt => {
+        services.AddAuthentication(opt =>
+        {
             opt.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
             opt.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
             opt.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
         })
-            .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, opt => {
+            .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, opt =>
+            {
                 opt.RequireHttpsMetadata = settings.Url?.StartsWith("https://") ?? false;
                 opt.Authority = settings.Url;
                 opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -51,8 +54,11 @@ public static class AuthConfiguration
                 };
                 opt.Audience = "api";
             });
-        
-        services.AddAuthorization();
+
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("Admins", policy => policy.RequireRole("Admin"));
+        });
 
         return services;
     }

@@ -13,16 +13,15 @@ namespace FlowerStore.Services.Flowers
 {
     public class FlowerService : IFlowerService
     {
-        private readonly IDbContextFactory<MainDbContext> contextFactory;
+        private readonly MainDbContext context;
 
-        public FlowerService(IDbContextFactory<MainDbContext> contextFactory)
+        public FlowerService(MainDbContext context)
         {
-            this.contextFactory = contextFactory;
+            this.context = context;
         }
 
         public async Task<FlowerModel> AddFlower(AddFlowerModel model)
         {
-            using var context = await contextFactory.CreateDbContextAsync();
             var res = await context!.Flowers!.AddAsync(model);
             await context.SaveChangesAsync();
             return (FlowerModel)res.Entity;
@@ -30,7 +29,6 @@ namespace FlowerStore.Services.Flowers
 
         public async Task DeleteFlower(int id)
         {
-            using var context = await contextFactory.CreateDbContextAsync();
             var flower = await context!.Flowers!.FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new ProcessException($"The flower (id: {id}) was not found");
             context!.Remove(flower);
@@ -39,7 +37,6 @@ namespace FlowerStore.Services.Flowers
 
         public async Task<FlowerModel?> GetFlower(int id)
         {
-            using var context = await contextFactory.CreateDbContextAsync();
             var flower = await context!.Flowers!.FirstOrDefaultAsync(x => x.Id == id);
 
             return flower;
@@ -47,7 +44,6 @@ namespace FlowerStore.Services.Flowers
 
         public async Task<IEnumerable<FlowerModel>> GetFlowers(int page = 0, int limit = 10)
         {
-            using var context = await contextFactory.CreateDbContextAsync();
             var flowers = context!.Flowers!
                 .Skip(Math.Max(0, page) * limit)
                 .Take(Math.Min(1000, limit))
@@ -55,15 +51,13 @@ namespace FlowerStore.Services.Flowers
             return await flowers.ToListAsync();
         }
 
-        public async Task<int> GetFlowersCount()
+        public Task<int> GetFlowersCount()
         {
-            using var context = await contextFactory.CreateDbContextAsync();
-            return context!.Flowers!.Count();
+            return Task.FromResult(context!.Flowers!.Count());
         }
 
         public async Task UpdateFlower(int id, UpdateFlowerModel model)
         {
-            using var context = await contextFactory.CreateDbContextAsync();
             var flower = await context!.Flowers!.FirstOrDefaultAsync(x => x.Id == id);
             ProcessException.ThrowIf(() => flower is null, $"The flower (id: {id}) was not found");
 
