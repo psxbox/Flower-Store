@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Migrations\**" />
+	  <EmbeddedResource Remove="Migrations\**" />
+	  <None Remove="Migrations\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
@@ -23,10 +29,6 @@
 		<ProjectReference Include="..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />
 		<ProjectReference Include="..\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj" />
 		<ProjectReference Include="..\..\Shared\AppSettings\AppSettings.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Migrations\SQLite\" />
 	</ItemGroup>
 
 </Project>

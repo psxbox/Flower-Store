@@ -23,11 +23,5 @@ namespace FlowerStore.Context
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserRole>().HasMany(r => r.Users).WithMany(r => r.UserRoles);
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseLazyLoadingProxies();
-            base.OnConfiguring(builder);
-        }
     }
 }
