@@ -31,17 +31,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Services.UserAc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Services.Login", "Services\FlowerStore.Services.Login\FlowerStore.Services.Login.csproj", "{A14648C8-DA98-4EF6-80BE-3DA7DC6CF37C}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4DE92368-C490-4700-A8D0-ED842622B9B3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{D435EC4F-075D-4BD0-8842-678674D43404}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migration.MSSQL", "Data\Migrations\FlowerStore.Context.Migration.MSSQL\FlowerStore.Context.Migration.MSSQL.csproj", "{279278F4-8FC7-4C44-A41C-1EDB628CD2F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migrations.MSSQL", "Data\Migrations\FlowerStore.Context.Migrations.MSSQL\FlowerStore.Context.Migrations.MSSQL.csproj", "{279278F4-8FC7-4C44-A41C-1EDB628CD2F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migration.PostgreSQL", "Data\Migrations\FlowerStore.Context.Migration.PostgreSQL\FlowerStore.Context.Migration.PostgreSQL.csproj", "{1789550A-36D6-4D06-8696-6F6D88F2D933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migrations.PostgreSQL", "Data\Migrations\FlowerStore.Context.Migrations.PostgreSQL\FlowerStore.Context.Migrations.PostgreSQL.csproj", "{1789550A-36D6-4D06-8696-6F6D88F2D933}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migration.MySQL", "Data\Migrations\FlowerStore.Context.Migration.MySQL\FlowerStore.Context.Migration.MySQL.csproj", "{4C34C8D4-BCD3-4A0E-A938-3C89F2122CF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migrations.MySQL", "Data\Migrations\FlowerStore.Context.Migrations.MySQL\FlowerStore.Context.Migrations.MySQL.csproj", "{4C34C8D4-BCD3-4A0E-A938-3C89F2122CF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migration.SQLite", "Data\Migrations\FlowerStore.Context.Migration.SQLite\FlowerStore.Context.Migration.SQLite.csproj", "{9AB91B27-0FA9-4853-8DBE-5686425CAF08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migrations.SQLite", "Data\Migrations\FlowerStore.Context.Migrations.SQLite\FlowerStore.Context.Migrations.SQLite.csproj", "{9AB91B27-0FA9-4853-8DBE-5686425CAF08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F933CE69-5ED9-47DF-AD60-34D80BBCDC98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,10 +85,6 @@ Global
 		{A14648C8-DA98-4EF6-80BE-3DA7DC6CF37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A14648C8-DA98-4EF6-80BE-3DA7DC6CF37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A14648C8-DA98-4EF6-80BE-3DA7DC6CF37C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DE92368-C490-4700-A8D0-ED842622B9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DE92368-C490-4700-A8D0-ED842622B9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DE92368-C490-4700-A8D0-ED842622B9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DE92368-C490-4700-A8D0-ED842622B9B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{279278F4-8FC7-4C44-A41C-1EDB628CD2F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{279278F4-8FC7-4C44-A41C-1EDB628CD2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{279278F4-8FC7-4C44-A41C-1EDB628CD2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -125,6 +121,7 @@ Global
 		{1789550A-36D6-4D06-8696-6F6D88F2D933} = {D435EC4F-075D-4BD0-8842-678674D43404}
 		{4C34C8D4-BCD3-4A0E-A938-3C89F2122CF2} = {D435EC4F-075D-4BD0-8842-678674D43404}
 		{9AB91B27-0FA9-4853-8DBE-5686425CAF08} = {D435EC4F-075D-4BD0-8842-678674D43404}
+		{F933CE69-5ED9-47DF-AD60-34D80BBCDC98} = {FB8F68F2-2D70-4E64-ABEF-E4A08EE55FE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FEC6A87-63A6-4FAB-9990-6D89FC5E6D78}

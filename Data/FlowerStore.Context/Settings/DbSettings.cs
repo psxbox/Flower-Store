@@ -9,5 +9,7 @@ namespace FlowerStore.Context.Settings
     {
         public DbType Type { get; private set; }
         public string? ConnectionString { get; private set; }
+        public string? ServerType { get; private set; }
+        public string? Version { get; private set; }
     }
 }

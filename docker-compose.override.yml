@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  flowerstore.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"

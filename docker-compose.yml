@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  flowerstore.api:
-    image: ${DOCKER_REGISTRY-}flowerstoreapi
-    build:
-      context: .
-      dockerfile: Systems/Api/FlowerStore.Api/Dockerfile

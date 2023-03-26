@@ -12,14 +12,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,10 +33,10 @@
     <ProjectReference Include="..\..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />
     <ProjectReference Include="..\..\..\Services\FlowerStore.Services.UserAccount\FlowerStore.Services.UserAccount.csproj" />
     <ProjectReference Include="..\..\..\Data\FlowerStore.Context\FlowerStore.Context.csproj" />
-    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migration.MSSQL\FlowerStore.Context.Migration.MSSQL.csproj" />
-    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migration.MySQL\FlowerStore.Context.Migration.MySQL.csproj" />
-    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migration.PostgreSQL\FlowerStore.Context.Migration.PostgreSQL.csproj" />
-    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migration.SQLite\FlowerStore.Context.Migration.SQLite.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migrations.MSSQL\FlowerStore.Context.Migrations.MSSQL.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migrations.MySQL\FlowerStore.Context.Migrations.MySQL.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migrations.PostgreSQL\FlowerStore.Context.Migrations.PostgreSQL.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\FlowerStore.Context.Migrations.SQLite\FlowerStore.Context.Migrations.SQLite.csproj" />
   </ItemGroup>
 
   <ItemGroup>
