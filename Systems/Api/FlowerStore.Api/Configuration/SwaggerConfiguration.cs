@@ -76,7 +76,6 @@ public static class SwaggerConfiguration
                     Array.Empty<string>()
                 }
             });
-
             c.UseOneOfForPolymorphism();
         });
 

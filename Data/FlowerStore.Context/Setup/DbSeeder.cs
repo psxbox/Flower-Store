@@ -35,15 +35,15 @@ public static class DbSeeder
 
         if (context == null) return;
 
-        var role = await context.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
+        var role = await context.UserRoles.FirstOrDefaultAsync(r => r.Role == Role.SystemAdmin);
 
         if (role == null)
         {
             role = new UserRole
             {
-                Name = "Admin",
+                Role = Role.SystemAdmin
             };
-            await context.Roles.AddAsync(role);
+            await context.UserRoles.AddAsync(role);
             await context.SaveChangesAsync();
         }
 

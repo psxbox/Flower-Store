@@ -13,5 +13,8 @@ namespace FlowerStore.Context.Entities
         [Required(ErrorMessage = "Bouquet name is required"), StringLength(50)]
         public string? Name { get; set; }
         public string? Desription { get; set; }
+        public virtual ICollection<Flower>? Flowers { get; set; }
+        public decimal? TotalPrice { get; set; }
+        public virtual ICollection<Category>? Categories { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
     /// <summary>
     /// RegisterUserAccountRequest
     /// </summary>
-    public class RegisterUserAccountRequest
+    public class RegisterUserRequest
     {
         /// <summary>
         /// Name
@@ -47,14 +47,13 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// Converts <c>RegisterUserAccountRequest</c> to <c>RegisterAccountModel</c>
         /// </summary>
         /// <param name="registerUser"></param>
-        public static implicit operator RegisterAccountModel(RegisterUserAccountRequest registerUser)
+        public static implicit operator RegisterUserModel(RegisterUserRequest registerUser)
         {
             return new()
             {
                 UserName = registerUser.Name,
                 Email = registerUser.Email,
-                Password = registerUser.Password,
-                ConfirmPassword = registerUser.ConfirmPassword
+                Password = registerUser.Password
             };
         }
     }

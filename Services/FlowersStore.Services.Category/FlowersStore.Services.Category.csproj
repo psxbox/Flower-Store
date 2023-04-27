@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="User\UserRole.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-  <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.4" />
+    <ProjectReference Include="..\..\Data\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj" />
+    <ProjectReference Include="..\..\Data\FlowerStore.Context\FlowerStore.Context.csproj" />
   </ItemGroup>
 
 </Project>

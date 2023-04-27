@@ -14,14 +14,20 @@ namespace FlowerStore.Context
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> Roles { get; set; }
         public DbSet<Flower> Flowers { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Bouquet> Bouquets { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserRole>().HasMany(r => r.Users).WithMany(r => r.UserRoles);
+            modelBuilder.Entity<Flower>().HasMany(f => f.Categories).WithMany();
+            modelBuilder.Entity<Bouquet>().HasMany(b => b.Categories).WithMany();
+            modelBuilder.Entity<Bouquet>().HasMany(b => b.Flowers).WithMany();
         }
     }
 }

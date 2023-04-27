@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerStore.Context.Migrati
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F933CE69-5ED9-47DF-AD60-34D80BBCDC98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowersStore.Services.Category", "Services\FlowersStore.Services.Category\FlowersStore.Services.Category.csproj", "{E4625182-EC8B-4DD8-AC1B-4B954E761581}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{9AB91B27-0FA9-4853-8DBE-5686425CAF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AB91B27-0FA9-4853-8DBE-5686425CAF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AB91B27-0FA9-4853-8DBE-5686425CAF08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4625182-EC8B-4DD8-AC1B-4B954E761581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4625182-EC8B-4DD8-AC1B-4B954E761581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4625182-EC8B-4DD8-AC1B-4B954E761581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4625182-EC8B-4DD8-AC1B-4B954E761581}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{4C34C8D4-BCD3-4A0E-A938-3C89F2122CF2} = {D435EC4F-075D-4BD0-8842-678674D43404}
 		{9AB91B27-0FA9-4853-8DBE-5686425CAF08} = {D435EC4F-075D-4BD0-8842-678674D43404}
 		{F933CE69-5ED9-47DF-AD60-34D80BBCDC98} = {FB8F68F2-2D70-4E64-ABEF-E4A08EE55FE1}
+		{E4625182-EC8B-4DD8-AC1B-4B954E761581} = {932BF028-2DFD-4F15-8A42-5909F59DFDAC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FEC6A87-63A6-4FAB-9990-6D89FC5E6D78}

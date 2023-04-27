@@ -104,9 +104,20 @@
             Base controller
             </summary>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.BaseController.GetUser">
+        <member name="M:FlowerStore.Api.Controllers.BaseController.GetUserId">
             <summary>
             Gets user id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.BaseController.IsSystemAdmin">
+            <summary>
+            Verify user is in role "SystemAdmin"
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.BaseController.AsAdmin">
+            <summary>
+            Chack user logged as Admin
             </summary>
             <returns></returns>
         </member>
@@ -122,7 +133,7 @@
             <param name="logger"></param>
             <param name="userAccountService"></param>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.Register(FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest)">
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.Register(FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest)">
             <summary>
             Register new user
             </summary>
@@ -135,95 +146,207 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest">
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.GetById(System.String)">
+            <summary>
+            Get user by Id
+            </summary>
+            <param name="userId">User Id</param>
+            <returns>UserResponse</returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.GetRoleTypes">
+            <summary>
+            Get role types
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.SetRoles(System.String,System.String)">
+            <summary>
+            Set user roles
+            </summary>
+            <param name="userId">User Id</param>
+            <param name="roles">Roles in comma delimited</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.AccountsController.SetPassword(System.String,FlowerStore.Api.Controllers.v1.Accounts.Models.SetPasswordRequest)">
+            <summary>
+            Set user password
+            </summary>
+            <param name="userId">User ID</param>
+            <param name="passwordRequest">Password request</param>
+            <returns></returns>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.ChangePasswordRequest">
+            <summary>
+            Change password request model
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.ChangePasswordRequest.OldPassword">
+            <summary>
+            Old password
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.ChangePasswordRequest.NewPassword">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.ChangePasswordRequest.NewConfirmedPassword">
+            <summary>
+            New password confirmation
+            </summary>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest">
             <summary>
             RegisterUserAccountRequest
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.Name">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest.Name">
             <summary>
             Name
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.Email">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest.Email">
             <summary>
             Email
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.Password">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest.Password">
             <summary>
             Password
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.ConfirmPassword">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest.ConfirmPassword">
             <summary>
             ConfirmPassword
             </summary>
             <value></value>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserAccountRequest)~FlowerStore.Services.UserAccount.Models.RegisterAccountModel">
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Accounts.Models.RegisterUserRequest)~FlowerStore.Services.UserAccount.Models.RegisterUserModel">
             <summary>
             Converts <c>RegisterUserAccountRequest</c> to <c>RegisterAccountModel</c>
             </summary>
             <param name="registerUser"></param>
         </member>
-        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse">
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.SetPasswordRequest">
+            <summary>
+            Set password request model
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.SetPasswordRequest.Password">
+            <summary>
+            Password
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.SetPasswordRequest.ConfirmPassword">
+            <summary>
+            ConfirmPassword
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest">
+            <summary>
+            User update request model
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest.UserName">
+            <summary>
+            User name - Login
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest.Email">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest.FirstName">
+            <summary>
+            First name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest.LastName">
+            <summary>
+            Last name
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest.PhoneNumber">
+            <summary>
+            Phone number
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Accounts.Models.UpdateUserRequest)~FlowerStore.Services.UserAccount.Models.UpdateUserModel">
+            <summary>
+            Mapping 
+            </summary>
+            <param name="request"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse">
             <summary>
             UserAccountResponse
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.Id">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.Id">
             <summary>
             User Id
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.Name">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.Name">
             <summary>
             User name
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.Email">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.Email">
             <summary>
             User email
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.EmailConfirmed">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.EmailConfirmed">
             <summary>
             Email is confirmed
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.FirstName">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.FirstName">
             <summary>
             First name
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.LastName">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.LastName">
             <summary>
             Last name
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.PhoneNumber">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.PhoneNumber">
             <summary>
             Phone number
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.PhoneNumberConfirmed">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.PhoneNumberConfirmed">
             <summary>
             Phone number confirmation
             </summary>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse.op_Implicit(FlowerStore.Services.UserAccount.Models.UserAccountModel)~FlowerStore.Api.Controllers.v1.Accounts.Models.UserAccountResponse">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.UserStatus">
+            <summary>
+            User status
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.UserRoles">
+            <summary>
+            User roles
+            </summary>
+        </member>
+        <member name="M:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.op_Implicit(FlowerStore.Context.Entities.User)~FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse">
             <summary>
             Converts <c>UserAccountModel</c> to <c>UserAccountResponse</c>
             </summary>
-            <param name="model"></param>
+            <param name="user"></param>
         </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Flowers.FlowersController">
             <summary>
@@ -317,6 +440,21 @@
         <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Desription">
             <summary>
             Flower description
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Count">
+            <summary>
+            Count
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Categories">
+            <summary>
+            Categories
             </summary>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.op_Implicit(FlowerStore.Services.Flowers.Models.FlowerModel)~FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse">

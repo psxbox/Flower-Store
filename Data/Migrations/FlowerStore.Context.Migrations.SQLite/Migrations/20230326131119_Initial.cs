@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FlowerStore.Context.Migrations.SQLite.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,18 +23,6 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,6 +47,27 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bouquets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Desription = table.Column<string>(type: "TEXT", nullable: true),
+                    Uid = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bouquets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bouquets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Flowers",
                 columns: table => new
                 {
@@ -80,25 +89,44 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserUserRole",
+                name: "UserRoles",
                 columns: table => new
                 {
-                    UserRolesId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UsersId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Role = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserUserRole", x => new { x.UserRolesId, x.UsersId });
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserUserRole_Roles_UserRolesId",
-                        column: x => x.UserRolesId,
-                        principalTable: "Roles",
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BouquetCategory",
+                columns: table => new
+                {
+                    BouquetId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CategoriesId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BouquetCategory", x => new { x.BouquetId, x.CategoriesId });
+                    table.ForeignKey(
+                        name: "FK_BouquetCategory_Bouquets_BouquetId",
+                        column: x => x.BouquetId,
+                        principalTable: "Bouquets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserUserRole_Users_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Users",
+                        name: "FK_BouquetCategory_Categories_CategoriesId",
+                        column: x => x.CategoriesId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -108,11 +136,11 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                 columns: table => new
                 {
                     CategoriesId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FlowersId = table.Column<int>(type: "INTEGER", nullable: false)
+                    FlowerId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryFlower", x => new { x.CategoriesId, x.FlowersId });
+                    table.PrimaryKey("PK_CategoryFlower", x => new { x.CategoriesId, x.FlowerId });
                     table.ForeignKey(
                         name: "FK_CategoryFlower_Categories_CategoriesId",
                         column: x => x.CategoriesId,
@@ -120,17 +148,27 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryFlower_Flowers_FlowersId",
-                        column: x => x.FlowersId,
+                        name: "FK_CategoryFlower_Flowers_FlowerId",
+                        column: x => x.FlowerId,
                         principalTable: "Flowers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryFlower_FlowersId",
+                name: "IX_BouquetCategory_CategoriesId",
+                table: "BouquetCategory",
+                column: "CategoriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bouquets_UserId",
+                table: "Bouquets",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryFlower_FlowerId",
                 table: "CategoryFlower",
-                column: "FlowersId");
+                column: "FlowerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flowers_UserId",
@@ -138,40 +176,37 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_Name",
-                table: "Roles",
-                column: "Name",
-                unique: true);
+                name: "IX_UserRoles_UserId",
+                table: "UserRoles",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
                 table: "Users",
                 column: "UserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserUserRole_UsersId",
-                table: "UserUserRole",
-                column: "UsersId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BouquetCategory");
+
+            migrationBuilder.DropTable(
                 name: "CategoryFlower");
 
             migrationBuilder.DropTable(
-                name: "UserUserRole");
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "Bouquets");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Flowers");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");

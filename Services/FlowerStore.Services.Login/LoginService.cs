@@ -25,9 +25,7 @@ namespace FlowerStore.Services.Login
                 u.PasswordHash == password.GetMD5());
             if (user == null) return null;
 
-            // context.Entry(user!).Collection(c => c.UserRoles).Load();
-
-            return await context.Users.FirstOrDefaultAsync();
+            return user;
         }
     }
 }

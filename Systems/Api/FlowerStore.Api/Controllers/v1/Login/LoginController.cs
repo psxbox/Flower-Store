@@ -14,7 +14,7 @@ namespace FlowerStore.Api.Controllers.v1.Login
     /// <summary>
     /// Login controller
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/login")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -41,7 +41,7 @@ namespace FlowerStore.Api.Controllers.v1.Login
         [HttpPost]
         public async Task<ActionResult> LoginAsync([FromBody] UserLogin userLogin)
         {
-            var user = await AuthenticeteAsync(userLogin);
+            var user = await AuthenticateAsync(userLogin);
             if (user != null)
             {
                 var token = GenerateToken(user);
@@ -63,7 +63,7 @@ namespace FlowerStore.Api.Controllers.v1.Login
                 new Claim(ClaimTypes.Email, user.Email ?? ""),
             };
 
-            user.UserRoles?.ToList().ForEach(x => claims.Add(new Claim(ClaimTypes.Role, x.Name!)));
+            user.UserRoles?.ToList().ForEach(x => claims.Add(new Claim(ClaimTypes.Role, x.Role.ToString())));
 
             var token = new JwtSecurityToken(
                 config["Jwt:Issuer"],
@@ -74,7 +74,7 @@ namespace FlowerStore.Api.Controllers.v1.Login
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private async Task<User?> AuthenticeteAsync(UserLogin userLogin)
+        private async Task<User?> AuthenticateAsync(UserLogin userLogin)
         {
             var currentUser = await loginService.LoginAsync(userLogin.UserName!, userLogin.Password!);
             if (currentUser != null)

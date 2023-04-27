@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlowerStore.Context.Entities;
 using FlowerStore.Services.UserAccount.Models;
 
 namespace FlowerStore.Api.Controllers.v1.Accounts.Models
@@ -9,7 +10,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
     /// <summary>
     /// UserAccountResponse
     /// </summary>
-    public class UserAccountResponse
+    public class UserResponse
     {
         /// <summary>
         /// User Id
@@ -54,23 +55,35 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// Phone number confirmation
         /// </summary>
         public bool PhoneNumberConfirmed { get; set; }
+        
+        /// <summary>
+        /// User status
+        /// </summary>
+        public UserStatus UserStatus { get; set; }
+
+        /// <summary>
+        /// User roles
+        /// </summary>
+        public IEnumerable<string>? UserRoles { get; set; }
 
         /// <summary>
         /// Converts <c>UserAccountModel</c> to <c>UserAccountResponse</c>
         /// </summary>
-        /// <param name="model"></param>
-        public static implicit operator UserAccountResponse(UserAccountModel model)
+        /// <param name="user"></param>
+        public static implicit operator UserResponse(User user)
         {
             return new()
             {
-                Id = model.Id,
-                Name = model.Name,
-                Email = model.Email,
-                EmailConfirmed = model.EmailConfirmed,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber,
-                PhoneNumberConfirmed = model.PhoneNumberConfirmed
+                Id = user.Id,
+                Name = user.UserName,
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                UserStatus = user.Status,
+                UserRoles = user.UserRoles?.Select(r => r.Role.ToString())
             };
         }
     }
