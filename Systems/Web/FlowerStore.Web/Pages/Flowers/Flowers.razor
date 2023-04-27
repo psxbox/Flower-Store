@@ -1,0 +1,101 @@
+﻿@page "/flowers"
+@using FlowerStore.Web.Models.Flower;
+@using FlowerStore.Web.Services.Flower;
+@attribute [Authorize(Roles = "SystemAdmin, Admin")]
+@inject IFlowerService FlowerService
+
+<MudText Typo="Typo.h5">Flowers</MudText>
+
+<MudDataGrid @ref=dataGrid T="FlowerModel" Bordered=true Dense=true ServerData="GetServerDataAsync" Loading=isLoading
+    EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual" ReadOnly=false>
+    <ToolBarContent>
+        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddFlower" />
+        <MudIconButton Icon="@Icons.Material.Filled.Refresh" OnClick="@Refresh" />
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="p => p.Name" Title="Name"/>
+        <PropertyColumn Property="p => p.Description" Title="Description"/>
+        <PropertyColumn Property="p => p.Price" Title="Price"/>
+        <PropertyColumn Property="p => p.Count" Title="Count"/>
+        <TemplateColumn Title="Categories">
+            <CellTemplate>
+                <MudStack Row AlignItems="AlignItems.Center" Justify="Justify.FlexStart" Spacing="0">
+                    @if (@context?.Item?.Categories?.Count > 0)
+                    {
+                        foreach (var item in context.Item.Categories)
+                        {
+                            <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item" />
+                        }
+                    }
+                </MudStack>
+            </CellTemplate>
+            <EditTemplate>
+                <MudChipSet AllClosable="true" OnClose="chip => RemoveChip(context?.Item?.Categories, chip.Text)">
+                    @if (@context?.Item?.Categories?.Count > 0)
+                    {
+                        foreach (var item in context.Item.Categories)
+                        {
+                            <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item" />
+                        }
+                    }
+                    <MudTextField Placeholder="Category" T="string" @bind-Value="newCategory" 
+                        Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Add" 
+                        OnAdornmentClick="() => AddChip(context?.Item?.Categories)"/>
+                    @*<MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="() => AddChip(context?.Item?.Categories)"></MudIconButton>*@
+                </MudChipSet>
+            </EditTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="FlowerModel" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    private bool isLoading = false;
+    private IEnumerable<FlowerModel>? pageData = null;
+    private MudDataGrid<FlowerModel>? dataGrid;
+    private string newCategory = string.Empty;
+
+    private async Task<GridData<FlowerModel>> GetServerDataAsync(GridState<FlowerModel> state)
+    {
+        isLoading = true;
+        var data = await FlowerService.GetAllAsync(state.Page, state.PageSize);
+        pageData = data.Data;
+        isLoading = false;
+
+        return new GridData<FlowerModel>()
+        {
+            TotalItems = data.TotalElements,
+            Items = pageData,
+        };
+    }
+
+    private void RemoveChip(List<string>? chips, string chip)
+    {
+        chips?.Remove(chip);
+    }
+
+    private void AddChip(List<string>? chips)
+    {
+        if (!string.IsNullOrWhiteSpace(newCategory))
+            chips?.Add(newCategory);
+    }
+
+    private void AddFlower()
+    {
+
+    }
+
+    private async void Refresh()
+    {
+        var serverData = dataGrid?.ReloadServerData();
+        if (serverData is not null) 
+            await serverData;
+    }
+}

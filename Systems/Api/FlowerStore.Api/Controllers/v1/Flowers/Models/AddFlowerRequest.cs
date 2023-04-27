@@ -22,7 +22,22 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
         /// <summary>
         /// Flower description
         /// </summary>
-        public string Desription { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Price
+        /// </summary>
+        public decimal? Price { get; set; }
+
+        /// <summary>
+        /// Count
+        /// </summary>
+        public int? Count { get; set; }
+
+        /// <summary>
+        /// Categories
+        /// </summary>
+        public string[]? Categories { get; set; } 
 
         /// <summary>
         /// Converts <see cref="AddFlowerRequest"/> to <see cref="AddFlowerModel"/>
@@ -33,7 +48,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
             return new AddFlowerModel
             {
                 Name = addFlowerRequest.Name,
-                Desription = addFlowerRequest.Desription
+                Description = addFlowerRequest.Description
             };
         }
     }

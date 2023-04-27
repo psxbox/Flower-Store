@@ -9,6 +9,6 @@ namespace FlowersStore.Services
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<Category>> GetOrAddCategories(string[] categories);
+        Task<IEnumerable<Category>> GetOrAddCategories(string[]? categories);
     }
 }

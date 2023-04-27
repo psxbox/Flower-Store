@@ -1,0 +1,9 @@
+﻿@page "/logout"
+@inject AuthenticationStateProvider provider
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ((JwtAuthenticationStateProvider)provider).MakeUserAnonimousAsync();
+    }
+}

@@ -156,7 +156,7 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Desription")
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

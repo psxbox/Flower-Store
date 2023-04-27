@@ -22,7 +22,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
         /// <summary>
         /// Flower description
         /// </summary>
-        public string? Desription { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
         /// <summary>
         /// Price
         /// </summary>
@@ -46,7 +46,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
             {
                 Id = flowerModel.Id,
                 Name = flowerModel.Name,
-                Desription = flowerModel.Desription,
+                Description = flowerModel.Description,
                 Price = flowerModel.Price,
                 Count = flowerModel.Count,
                 Categories = flowerModel.Categories,

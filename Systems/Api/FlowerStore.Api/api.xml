@@ -411,9 +411,24 @@
             Flower name
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Desription">
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Description">
             <summary>
             Flower description
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Count">
+            <summary>
+            Count
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.Categories">
+            <summary>
+            Categories
             </summary>
         </member>
         <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Flowers.Models.AddFlowerRequest)~FlowerStore.Services.Flowers.Models.AddFlowerModel">
@@ -437,7 +452,7 @@
             Flower name
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Desription">
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.FlowerResponse.Description">
             <summary>
             Flower description
             </summary>
@@ -488,16 +503,25 @@
             Flower name
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Desription">
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Description">
             <summary>
             Flower description
             </summary>
         </member>
-        <member name="M:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.op_Implicit(FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest)~FlowerStore.Services.Flowers.Models.UpdateFlowerModel">
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Price">
             <summary>
-            Convert <see cref="T:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest"/> to <see cref="T:FlowerStore.Services.Flowers.Models.UpdateFlowerModel"/>
+            Price
             </summary>
-            <param name="updateFlowerRequest"></param>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Count">
+            <summary>
+            Count
+            </summary>
+        </member>
+        <member name="P:FlowerStore.Api.Controllers.v1.Flowers.Models.UpdateFlowerRequest.Categories">
+            <summary>
+            Categories
+            </summary>
         </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Login.LoginController">
             <summary>

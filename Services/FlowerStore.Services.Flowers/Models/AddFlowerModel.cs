@@ -10,7 +10,7 @@ namespace FlowerStore.Services.Flowers.Models;
 public class AddFlowerModel
 {
     public string? Name { get; set; } = string.Empty;
-    public string? Desription { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
     public decimal? Price { get; set; }
     public int Count { get; set; }
     public string[]? Categories { get; set; }
@@ -27,13 +27,13 @@ public class AddFlowerModel
     //    };
     //}
 
-    public static implicit operator Flower(AddFlowerModel model)
-    {
-        return new Flower{
-            Name = model.Name,
-            Desription = model.Desription,
-            Price = model.Price,
-            Count = model.Count
-        };
-    }
+    //public static implicit operator Flower(AddFlowerModel model)
+    //{
+    //    return new Flower{
+    //        Name = model.Name,
+    //        Desription = model.Desription,
+    //        Price = model.Price,
+    //        Count = model.Count
+    //    };
+    //}
 }

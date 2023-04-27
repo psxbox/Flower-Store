@@ -18,14 +18,17 @@ namespace FlowersStore.Services
             this.context = context;
         }
 
-        public async Task<IEnumerable<Category>> GetOrAddCategories(string[] categories)
+        public async Task<IEnumerable<Category>> GetOrAddCategories(string[]? categories)
         {
             var result = new List<Category>();
-            foreach (var category in categories)
+            if (categories != null)
             {
-                var founded = await context.Categories.FirstOrDefaultAsync(c => c.Name == category)
-                    ?? new Category { Name = category };
-                result.Add(founded);
+                foreach (var category in categories)
+                {
+                    var founded = await context.Categories.FirstOrDefaultAsync(c => c.Name == category)
+                        ?? new Category { Name = category };
+                    result.Add(founded);
+                }
             }
             return result;
         }

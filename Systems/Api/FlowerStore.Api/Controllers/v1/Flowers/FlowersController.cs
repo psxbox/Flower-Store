@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using FlowerStore.Context.Entities;
 using System.ComponentModel.DataAnnotations;
+using ObjectMapper;
+using FlowerStore.Services.Flowers.Models;
 
 namespace FlowerStore.Api.Controllers.v1.Flowers
 {
@@ -100,7 +102,10 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFlowerAsync([FromRoute] int id, [FromBody] UpdateFlowerRequest updateFlowerRequest)
         {
-            await flowerService.UpdateFlower(id, updateFlowerRequest);
+            var mapper = MapObject<UpdateFlowerRequest, UpdateFlowerModel>.GetMapObject();
+            var model = mapper.Get(updateFlowerRequest);
+
+            await flowerService.UpdateFlower(id, model);
             return Ok();
         }
 

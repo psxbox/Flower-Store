@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using FlowerStore.Common.Exceptions;
 using FlowerStore.Services.UserAccount;
 using FlowersStore.Services;
+using ObjectMapper;
 
 namespace FlowerStore.Services.Flowers
 {
@@ -31,16 +32,22 @@ namespace FlowerStore.Services.Flowers
 
         public async Task<FlowerModel> AddFlower(AddFlowerModel model, string? userId)
         {
-            Flower flower = model;
-
             var user = await userAccountService.GetByIdAsync(userId ?? "") ?? throw new ProcessException(ProcessExceptionCode.NotFound, "User not found");
 
-            flower.User = user;
-            flower.Categories = (await categoryService.GetOrAddCategories(model.Categories 
-                ?? Array.Empty<string>())).ToArray();
+            var flower = MapObject<AddFlowerModel, Flower>.GetMapObject()
+                .CustomMap(d => d.User, s => user)
+                .CustomMap(d => d.Categories, s =>
+                    categoryService.GetOrAddCategories(s.Categories).Result)
+                .Get(model);
+
 
             await context.Flowers.AddAsync(flower);
             await context.SaveChangesAsync();
+
+            //var result = MapObject<Flower, FlowerModel>.GetMapObject()
+            //    .CustomMap(d => d.Categories, s => s.Categories.Select(c => c.Name).ToArray())
+            //    .Get(flower);
+
             return (FlowerModel)flower;
         }
 
@@ -108,11 +115,17 @@ namespace FlowerStore.Services.Flowers
             var flower = await context!.Flowers!.FirstOrDefaultAsync(x => x.Id == id);
             ProcessException.ThrowIf(() => flower is null, $"The flower (id: {id}) was not found");
 
-            flower = model;
-            flower.Categories = (await categoryService.GetOrAddCategories(model.Categories
-                ?? Array.Empty<string>())).ToArray();
+            var categories = await categoryService.GetOrAddCategories(model.Categories
+                ?? Array.Empty<string>());
 
-            context.Flowers.Update(flower);
+            MapObject<UpdateFlowerModel, Flower>.GetMapObject()
+                .Ignore(x => x.Id)
+                .Ignore(x => x.Uid)
+                .Ignore(x => x.User)
+                .CustomMap(d => d.Categories, s => categories.ToArray())
+                .Copy(model, flower!);
+
+            context.Flowers.Update(flower!);
             await context.SaveChangesAsync();
         }
     }

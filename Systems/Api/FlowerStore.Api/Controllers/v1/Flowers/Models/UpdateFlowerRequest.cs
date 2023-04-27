@@ -20,19 +20,34 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
         /// <summary>
         /// Flower description
         /// </summary>
-        public string Desription { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Price
+        /// </summary>
+        public decimal? Price { get; set; }
+
+        /// <summary>
+        /// Count
+        /// </summary>
+        public int? Count { get; set; }
+
+        /// <summary>
+        /// Categories
+        /// </summary>
+        public string[]? Categories { get; set; }
 
         /// <summary>
         /// Convert <see cref="UpdateFlowerRequest"/> to <see cref="UpdateFlowerModel"/>
         /// </summary>
         /// <param name="updateFlowerRequest"></param>
-        public static implicit operator UpdateFlowerModel(UpdateFlowerRequest updateFlowerRequest)
-        {
-            return new UpdateFlowerModel
-            {
-                Name = updateFlowerRequest.Name,
-                Desription = updateFlowerRequest.Desription
-            };
-        }
+        //public static implicit operator UpdateFlowerModel(UpdateFlowerRequest updateFlowerRequest)
+        //{
+        //    return new UpdateFlowerModel
+        //    {
+        //        Name = updateFlowerRequest.Name,
+        //        Desription = updateFlowerRequest.Desription
+        //    };
+        //}
     }
 }
