@@ -11,6 +11,8 @@ services:
       - flowerstore.net
     ports:
       - "15432:5432"
+    volumes:
+      - ~/.docker-conf/postgresql/data/:/var/lib/postgresql/data
 
   flowerstore.api:
     container_name: flowerstore_api
