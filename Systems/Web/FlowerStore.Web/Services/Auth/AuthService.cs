@@ -41,6 +41,7 @@ namespace FlowerStore.Web.Services.Auth
 
                 result.Success = response.IsSuccessStatusCode;
                 result.Error = response.ReasonPhrase;
+                result.Message = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {

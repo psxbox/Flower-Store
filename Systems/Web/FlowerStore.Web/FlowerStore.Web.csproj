@@ -17,4 +17,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />
+  </ItemGroup>
+
 </Project>

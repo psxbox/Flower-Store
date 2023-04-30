@@ -41,14 +41,22 @@ namespace FlowerStore.Api.Controllers.v1.Login
         [HttpPost]
         public async Task<ActionResult> LoginAsync([FromBody] UserLogin userLogin)
         {
-            var user = await AuthenticateAsync(userLogin);
-            if (user != null)
+            try
             {
-                var token = GenerateToken(user);
-                return Ok(token);
+                var user = await AuthenticateAsync(userLogin);
+                if (user != null)
+                {
+                    var token = GenerateToken(user);
+                    return Ok(token);
+                }
+
+                return NotFound("User name or password incorrect");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            return NotFound("User not found");
         }
 
         private string GenerateToken(User user)

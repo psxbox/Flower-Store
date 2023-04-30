@@ -1,6 +1,6 @@
 ﻿@page "/flowers"
 
-@attribute [Authorize(Roles = "SystemAdmin, Admin")]
+@attribute [Authorize(Roles = "SystemAdmin,Admin")]
 
 @using FlowerStore.Web.Models.Flower;
 @using FlowerStore.Web.Services.Category;
@@ -17,7 +17,7 @@
     EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual" ReadOnly=false StartedEditingItem="Editing"
     CommittedItemChanges="ItemChanged">
     <ToolBarContent>
-        <AuthorizeView Roles="Admin"> 
+        <AuthorizeView Roles="Admin">
             <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddFlower" />
         </AuthorizeView>
         <MudIconButton Icon="@Icons.Material.Filled.Refresh" OnClick="@Refresh" />
@@ -63,7 +63,7 @@
         </TemplateColumn>
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="FlowerModel" />
+        <MudDataGridPager T="FlowerModel"/>
     </PagerContent>
 </MudDataGrid>
 
@@ -77,7 +77,7 @@
     private async Task<GridData<FlowerModel>> GetServerDataAsync(GridState<FlowerModel> state)
     {
         isLoading = true;
-        var data = await FlowerService.GetAllAsync(state.Page, state.PageSize);
+        var data = await FlowerService.GetAllAsync(state.Page + 1, state.PageSize);
         pageData = data.Data;
         isLoading = false;
 

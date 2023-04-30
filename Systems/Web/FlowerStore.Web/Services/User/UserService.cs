@@ -1,4 +1,6 @@
-﻿using FlowerStore.Web.Models.User;
+﻿using FlowerStore.Common.Exceptions;
+using FlowerStore.Web.Models.Auth;
+using FlowerStore.Web.Models.User;
 
 namespace FlowerStore.Web.Services.User
 {
@@ -18,7 +20,11 @@ namespace FlowerStore.Web.Services.User
         {
             var result = await httpClient.PatchAsJsonAsync($"{ApiUrl}/v1/accounts/password/change", changePasswordRequest);
             if (!result.IsSuccessStatusCode)
-                throw new HttpRequestException(result.ReasonPhrase, null, result.StatusCode);
+                if (!result.IsSuccessStatusCode)
+                {
+                    var msg = await result.Content.ReadAsStringAsync();
+                    throw new HttpRequestException(result.ReasonPhrase, new Exception(msg), result.StatusCode);
+                }
         }
 
         public async Task<IEnumerable<UserModel>?> GetAllAsync()
@@ -43,21 +49,42 @@ namespace FlowerStore.Web.Services.User
         {
             var result = await httpClient.PatchAsJsonAsync($"{ApiUrl}/v1/accounts/{userId}/password/set", passwordRequest);
             if (!result.IsSuccessStatusCode)
-                throw new HttpRequestException(result.ReasonPhrase, null, result.StatusCode);
+                if (!result.IsSuccessStatusCode)
+                {
+                    var msg = await result.Content.ReadAsStringAsync();
+                    throw new HttpRequestException(result.ReasonPhrase, new Exception(msg), result.StatusCode);
+                }
         }
 
         public async Task SetRolesAsync(Guid userId, string roles)
         {
             var result = await httpClient.PatchAsync($"{ApiUrl}/v1/accounts/{userId}/roles?roles={roles}", null);
-            if (!result.IsSuccessStatusCode) 
-                throw new HttpRequestException(result.ReasonPhrase, null, result.StatusCode);
+            if (!result.IsSuccessStatusCode)
+                if (!result.IsSuccessStatusCode)
+                {
+                    var msg = await result.Content.ReadAsStringAsync();
+                    throw new HttpRequestException(result.ReasonPhrase, new Exception(msg), result.StatusCode);
+                }
         }
 
         public async Task UpdateUserAsync(Guid userId, UserModel user)
         {
             var result = await httpClient.PostAsJsonAsync($"{ApiUrl}/v1/accounts/update/{userId}", user);
             if (!result.IsSuccessStatusCode)
-                throw new HttpRequestException(result.ReasonPhrase, null, result.StatusCode);
+            {
+                var msg = await result.Content.ReadAsStringAsync();
+                throw new HttpRequestException(result.ReasonPhrase, new Exception(msg), result.StatusCode);
+            }
+        }
+
+        public async Task<bool> RegisterAsync(RegisterUserModel model)
+        {
+            var result = await httpClient.PostAsJsonAsync($"{ApiUrl}/v1/accounts", model);
+            if (result.IsSuccessStatusCode)
+                return true;
+
+            var msg = await result.Content.ReadAsStringAsync();
+            throw new HttpRequestException(result.ReasonPhrase, new Exception(msg), result.StatusCode);
         }
     }
 }

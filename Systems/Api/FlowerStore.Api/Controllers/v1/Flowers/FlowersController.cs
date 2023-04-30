@@ -26,7 +26,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
     [Route("api/v{version:apiVersion}/flowers")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Authorize(Roles = "SystemAdmin, Admin")]
+    [Authorize(Roles = "SystemAdmin,Admin")]
     public class FlowersController : BaseController
     {
         private readonly IFlowerService flowerService;
@@ -58,7 +58,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
 
             var flowers = await flowerService.GetFlowers(page, limit, userId);
             var response = flowers.Select(f => (FlowerResponse)f!);
-            var itemsCount = await flowerService.GetFlowersCount();
+            var itemsCount = await flowerService.GetFlowersCount(userId);
             var elementsResponse = new FlowersData(response, page, limit, itemsCount);
 
             return elementsResponse;
@@ -84,6 +84,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         /// <param name="addFlowerRequest">Flower data</param>
         /// <returns>Added flower</returns>
         [HttpPost]
+        [Authorize(Roles = "SystemAdmin,Admin")]
         public async Task<ActionResult<FlowerResponse>> AddFlowerAsync([FromBody] AddFlowerRequest addFlowerRequest)
         {
             string? userId = GetUserId();

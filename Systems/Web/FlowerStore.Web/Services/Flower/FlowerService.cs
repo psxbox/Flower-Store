@@ -30,7 +30,6 @@ namespace FlowerStore.Web.Services.Flower
             }
 
         }
-
         public async Task DeleteFlowerAsync(int id)
         {
             var result = await httpClient.DeleteAsync($"{ApiUrl}/v1/flowers/{id}");

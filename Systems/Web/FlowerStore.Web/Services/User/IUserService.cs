@@ -1,4 +1,5 @@
-﻿using FlowerStore.Web.Models.User;
+﻿using FlowerStore.Web.Models.Auth;
+using FlowerStore.Web.Models.User;
 using System.Collections;
 
 namespace FlowerStore.Web.Services.User
@@ -12,5 +13,6 @@ namespace FlowerStore.Web.Services.User
         Task SetPasswordAsync(Guid userId, PasswordRequest passwordRequest);
         Task ChangePasswordAsync(ChangePasswordRequest changePasswordRequest);
         Task UpdateUserAsync(Guid userId, UserModel user);
+        Task<bool> RegisterAsync(RegisterUserModel model);
     }
 }

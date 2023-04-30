@@ -1,12 +1,65 @@
 ﻿@page "/login"
 @using FlowerStore.Web.Models.Auth;
 @using FlowerStore.Web.Services.Auth;
+@using FlowerStore.Web.Services.User;
 @layout SimpleLayout
 @inject IAuthService AuthService
+@inject IUserService UserService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Login</PageTitle>
 
+@if (registerPage)
+{
+ <PageTitle>Register</PageTitle>
+<MudGrid Justify="Justify.Center" Class="pa-10">
+    <MudItem xs="7" sm="4">
+        <MudPaper Class="pa-4">
+            <Microsoft.AspNetCore.Components.Forms.EditForm Model="@regModel" OnValidSubmit="OnRegister">
+                <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
+
+                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Register</MudText>
+
+                <MudAlert Severity="_severity" Class="@(ShowErrors ? "mb-3 d-block" : "d-none")">
+                    @Error
+                    <br />
+                    @ErrorDetail
+                </MudAlert>
+
+                <MudTextField T="string" AutoFocus="true"
+                                @bind-Value="regModel.Name" For="@(() => regModel.Name)"
+                                Label="User name" 
+                                HelperText="Enter user name"/>
+                <MudTextField T="string"
+                                @bind-Value="regModel.Email" For="@(() => regModel.Email)"
+                                Label="Email" 
+                                HelperText="Enter user email"/>
+                <MudTextField @bind-Value="regModel.Password" For="@(() => regModel.Password)"
+                                Label="Password" 
+                                HelperText="Enter password"
+                                InputType="@InputType.Password"
+                                Adornment="Adornment.End"/>
+                <MudTextField @bind-Value="regModel.ConfirmPassword" For="@(() => regModel.ConfirmPassword)"
+                                Label="Confirm Password" 
+                                HelperText="Confirm password"
+                                InputType="@InputType.Password"
+                                Adornment="Adornment.End"/>
+                
+                <MudStack Row AlignItems="AlignItems.Center" Class="mt-12">
+                    <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           ButtonType="ButtonType.Submit">Register</MudButton>
+                    <MudLink OnClick="() => { registerPage = false; ShowErrors = false; }" Class="mx-5">Login</MudLink>
+                </MudStack>
+                
+            </Microsoft.AspNetCore.Components.Forms.EditForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>   
+}
+else
+{
+<PageTitle>Login</PageTitle>
 <MudGrid Justify="Justify.Center" Class="pa-10">
     <MudItem xs="7" sm="4">
         <MudPaper Class="pa-4">
@@ -21,7 +74,7 @@
                     @ErrorDetail
                 </MudAlert>
 
-                <MudTextField T="string"
+                <MudTextField T="string" AutoFocus="true"
                                 @bind-Value="model.UserName" For="@(() => model.UserName)"
                                 Label="User name" 
                                 HelperText="Enter user name"/>
@@ -31,30 +84,32 @@
                                 InputType="@InputType.Password"
                                 Adornment="Adornment.End"/>
 
-                <div Class="d-flex justify-space-between align-center">
-                    <MudCheckBox For="@(() => model.RememberMe)" @bind-Checked="model.RememberMe" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
-                    <MudLink Href="/forgot-password">Forgot pwd?</MudLink>
-                </div>
-
-                <MudButton Variant="Variant.Filled"
+                <MudStack Row AlignItems="AlignItems.Center" Class="mt-12">
+                    <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Size="Size.Large"
                            ButtonType="ButtonType.Submit">Sign In</MudButton>
+                    <MudLink OnClick="() => { registerPage = true; ShowErrors = false; }" Class="mx-5">Register</MudLink>
+                </MudStack>
+
+                
             </Microsoft.AspNetCore.Components.Forms.EditForm>
         </MudPaper>
     </MudItem>
-</MudGrid>
 
+</MudGrid>
+}
 
 @code {
-
+    bool registerPage = false;
     string userName = "";
     string password = "";
     bool rememberMe = false;
 
-    @* bool success;
-    bool isValid; *@
+    private RegisterUserModel regModel = new();
 
+
+    private Severity _severity = Severity.Error;
     private bool ShowErrors;
     private string? Error;
     private string? ErrorDetail;
@@ -81,8 +136,34 @@
         }
     }
 
-    void OnRegister(string name)
+    async Task OnRegister()
     {
+        try
+        {
+            await UserService.RegisterAsync(regModel);
+            _severity = Severity.Success;
+            ShowErrors = true;
+            Error = "Register user success!";
+            ErrorDetail = "Returning to login after 5 seconds";
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(5000);
+            ShowErrors = false;
+            registerPage = false;
+        }
+        catch (HttpRequestException ex)
+        {
+            ShowErrors = true;
+            Error = ex.Message;
+            ErrorDetail = ex.InnerException?.Message;
+            _severity = Severity.Error;
+        }
+        catch (Exception ex)
+        {
+            ShowErrors = true;
+            Error = ex.Message;
+            ErrorDetail = ex.InnerException?.Message;
+            _severity = Severity.Error;
+        }
     }
 
     void OnResetPassword(string value, string name)

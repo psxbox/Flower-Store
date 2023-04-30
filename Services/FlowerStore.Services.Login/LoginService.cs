@@ -25,6 +25,7 @@ namespace FlowerStore.Services.Login
                 u.PasswordHash == password.GetMD5());
             if (user == null) return null;
 
+            if (user.Status == UserStatus.Blocked) throw new Exception("The user is blocked");
             return user;
         }
     }

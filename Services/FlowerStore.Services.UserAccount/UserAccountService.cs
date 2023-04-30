@@ -43,7 +43,8 @@ namespace FlowerStore.Services.UserAccount
 
             user.UserRoles = new List<UserRole>()
             {
-                new UserRole { Role = Role.User},
+                new UserRole { Role = Role.User },
+                new UserRole { Role = Role.Admin },
             };
 
             await context.Users.AddAsync(user);

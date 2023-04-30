@@ -1,0 +1,91 @@
+@page "/register"
+
+@using FlowerStore.Web.Models.Auth;
+@using FlowerStore.Web.Services.Auth;
+@using FlowerStore.Web.Services.User;
+@layout SimpleLayout
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Register</PageTitle>
+
+<MudGrid Justify="Justify.Center" Class="pa-10">
+    <MudItem xs="7" sm="4">
+        <MudPaper Class="pa-4">
+            <Microsoft.AspNetCore.Components.Forms.EditForm Model="@model" OnValidSubmit="OnRegister">
+                <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
+
+                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Sign In</MudText>
+
+                <MudAlert Severity="_severity" Class="@(ShowErrors ? "mb-3 d-block" : "d-none")">
+                    @Error
+                    <br />
+                    @ErrorDetail
+                </MudAlert>
+
+                <MudTextField T="string"
+                                @bind-Value="model.Name" For="@(() => model.Name)"
+                                Label="User name" 
+                                HelperText="Enter user name"/>
+                <MudTextField T="string"
+                                @bind-Value="model.Email" For="@(() => model.Email)"
+                                Label="Email" 
+                                HelperText="Enter user email"/>
+                <MudTextField @bind-Value="model.Password" For="@(() => model.Password)"
+                                Label="Password" 
+                                HelperText="Enter password"
+                                InputType="@InputType.Password"
+                                Adornment="Adornment.End"/>
+                <MudTextField @bind-Value="model.ConfirmPassword" For="@(() => model.ConfirmPassword)"
+                                Label="Confirm Password" 
+                                HelperText="Confirm password"
+                                InputType="@InputType.Password"
+                                Adornment="Adornment.End"/>
+
+                <div Class="d-flex justify-space-between align-center">
+                    <MudLink Href="/login">Login</MudLink>
+                </div>
+
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           ButtonType="ButtonType.Submit">Register</MudButton>
+            </Microsoft.AspNetCore.Components.Forms.EditForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    private RegisterUserModel model;
+    private bool ShowErrors;
+    private string? Error;
+    private string? ErrorDetail;
+    private Severity _severity = Severity.Error;
+
+    async Task OnRegister()
+    {
+        try
+        {
+            await UserService.RegisterAsync(model);
+            _severity = Severity.Success;
+            ShowErrors = true;
+            Error = "Register user success!";
+            ErrorDetail = "Contact an administrator to get a role";
+        }
+        catch (HttpRequestException ex)
+        {
+            ShowErrors = true;
+            Error = ex.Message;
+            ErrorDetail = ex.StatusCode.ToString();
+            _severity = Severity.Error;
+        }
+        catch (Exception ex)
+        {
+            ShowErrors = true;
+            Error = ex.Message;
+            ErrorDetail = "";
+            _severity = Severity.Error;
+        }
+    }
+}

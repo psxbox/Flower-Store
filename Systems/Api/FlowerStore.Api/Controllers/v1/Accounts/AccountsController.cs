@@ -41,10 +41,17 @@ public class AccountsController : BaseController
     /// <param name="request">User info</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<UserResponse> Register([FromBody] RegisterUserRequest request)
+    public async Task<ActionResult<UserResponse>> Register([FromBody] RegisterUserRequest request)
     {
-        var user = await userAccountService.CreateAsync(request);
-        return user;
+        try
+        {
+            var user = await userAccountService.CreateAsync(request);
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost("update/{userId}")]
