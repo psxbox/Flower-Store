@@ -8,6 +8,8 @@ services:
       - POSTGRES_PASSWORD=postgres 
     networks:
       - flowerstore.net
+    ports:
+      - "15432:5432"
 
   flowerstore.api:
     ports:
