@@ -5,8 +5,16 @@ using System.Threading.Tasks;
 
 namespace FlowerStore.Api.Configuration
 {
+    /// <summary>
+    /// HealthCheck configuration
+    /// </summary>
     public static class HealthCheckConfiguration
     {
+        /// <summary>
+        /// Add app HealthCheck
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddAppHealthChecks(this IServiceCollection services)
         {
             services.AddHealthChecks()
@@ -14,9 +22,14 @@ namespace FlowerStore.Api.Configuration
             return services;
         }
 
+        /// <summary>
+        /// Use app HealthCheck
+        /// </summary>
+        /// <param name="app"></param>
         public static void UseAppHealthChecks(this WebApplication app)
         {
             app.MapHealthChecks("/health");
         }
+
     }
 }

@@ -1,0 +1,11 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <MudMenu Color="Color.Inherit" Icon="@Icons.Material.Filled.AccountBox" AnchorOrigin="Origin.BottomRight">
+            <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="profile">@context.User.Identity?.Name</MudMenuItem>
+            <MudDivider />
+            <MudMenuItem Icon="@Icons.Material.Filled.Logout" Href="logout">Chiqish</MudMenuItem>
+        </MudMenu>
+
+      
+    </Authorized>
+</AuthorizeView>

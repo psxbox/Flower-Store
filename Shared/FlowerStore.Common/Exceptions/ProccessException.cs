@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace FlowerStore.Common.Exceptions
 {
+    public enum ProcessExceptionCode
+    {
+        NotFound = 404 
+    }
+
     public class ProcessException : Exception
     {
-        public string? Code { get; }
+        public ProcessExceptionCode? Code { get; }
 
         public ProcessException()
         {
@@ -26,12 +31,12 @@ namespace FlowerStore.Common.Exceptions
         {
         }
 
-        public ProcessException(string code, string message) : base(message)
+        public ProcessException(ProcessExceptionCode code, string message) : base(message)
         {
             Code = code;
         }
 
-        public ProcessException(string code, string message, Exception innerException) : base(message, innerException)
+        public ProcessException(ProcessExceptionCode code, string message, Exception innerException) : base(message, innerException)
         {
             Code = code;
         }

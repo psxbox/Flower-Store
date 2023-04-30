@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using FlowerStore.Context.Entities;
 using Microsoft.Extensions.Logging;
+using FlowerStore.Common;
 
 namespace FlowerStore.Context;
 
@@ -31,24 +31,23 @@ public static class DbSeeder
 
     private static async Task CreateAdmin(IServiceScope? scope)
     {
-        var userManager = scope?.ServiceProvider.GetService<UserManager<User>>();
-        var roleManager = scope?.ServiceProvider.GetService<RoleManager<UserRole>>();
+        var context = scope?.ServiceProvider.GetRequiredService<MainDbContext>();
 
-        if (userManager == null || roleManager == null) return;
+        if (context == null) return;
 
-        var role = await roleManager.FindByNameAsync("Admin");
+        var role = await context.UserRoles.FirstOrDefaultAsync(r => r.Role == Role.SystemAdmin);
 
         if (role == null)
         {
-            role = new UserRole 
+            role = new UserRole
             {
-                Name = "Admin",
-                NormalizedName = "ADMIN",
+                Role = Role.SystemAdmin
             };
-            await roleManager.CreateAsync(role);
+            await context.UserRoles.AddAsync(role);
+            await context.SaveChangesAsync();
         }
 
-        var user = await userManager.FindByNameAsync(masterUserName);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.UserName == masterUserName);
         if (user != null) return;
 
         user = new User
@@ -57,27 +56,14 @@ public static class DbSeeder
             UserName = masterUserName,
             Email = masterEmail,
             EmailConfirmed = true,
+            PasswordHash = masterPassword.GetMD5(),
+            UserRoles = new List<UserRole> { role }
         };
 
 
-        var result = userManager.CreateAsync(user, masterPassword).GetAwaiter().GetResult();
-        if (result?.Succeeded == true)
-        {
-            logger?.LogInformation("User {user} created", user.UserName);
-        }
-        else
-        {
-            logger?.LogError("Error creating user {user}", user.UserName);
-        }
-
-        result = await userManager.AddToRoleAsync(user, "Admin");
-        if (result?.Succeeded == true)
-        {
-            logger?.LogInformation("Success adding to role");
-        }
-        else
-        {
-            logger?.LogError("Error adding to role");
-        }
+        await context.Users.AddAsync(user);
+        await context.SaveChangesAsync();
+        logger?.LogInformation("User {user} created", user.UserName);
+        
     }
 }

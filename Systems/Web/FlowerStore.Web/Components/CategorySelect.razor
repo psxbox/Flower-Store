@@ -1,0 +1,56 @@
+﻿@using FlowerStore.Web.Services.Category;
+
+@inject ICategoryService CategoryService
+
+<MudChipSet AllClosable="true" OnClose="chip => RemoveChip(chip.Text)">
+    @if (@Categories?.Count > 0)
+    {
+        foreach (var item in Categories)
+        {
+            <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item" />
+        }
+    }
+    <MudAutocomplete Placeholder="Type category" T="string" @bind-Value="newCategory" 
+        Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Add" SearchFunc="Search1"
+        OnAdornmentClick="() => AddChip()" CoerceValue=true />
+</MudChipSet>
+
+@code {
+    [Parameter]
+    public List<string>? Categories { get; set; }
+    private string newCategory = string.Empty;
+
+    private void RemoveChip(string chip)
+    {
+        Categories?.Remove(chip);
+    }
+
+    private void AddChip()
+    {
+        if (Categories is null) Categories = new();
+
+        if (!string.IsNullOrWhiteSpace(newCategory) && !Categories!.Any(c => c.ToUpper() == newCategory.ToUpper()))
+        {
+            Categories?.Add(newCategory);
+            newCategory = string.Empty;
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var cat = await CategoryService.GetCategoriesAsync();
+        Categories = cat?.ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<IEnumerable<string>> Search1(string value)
+    {
+        await Task.Delay(5);
+
+        if (string.IsNullOrEmpty(value))
+            return Categories ?? new();
+        return Categories?.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase)) 
+            ?? new List<string>();
+    }
+}

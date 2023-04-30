@@ -1,0 +1,38 @@
+﻿@page "/error"
+@using Microsoft.AspNetCore.WebUtilities;
+@using Microsoft.Extensions.Primitives;
+@using System.Web;
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h3" Class="mb-10">Server Error</MudText>
+
+<MudText Typo="Typo.h5" Class="mb-3">@errorCode</MudText>
+
+<MudButton Variant="Variant.Filled" Href="@path">Return</MudButton>
+@code {
+    private string? message;
+    private string? errorCode;
+    private string? path = "/";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("message", out var _message))
+        {
+            message = _message;
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("error_code", out var _errorCode))
+        {
+            errorCode = _errorCode;
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("path", out var _path))
+        {
+            path = HttpUtility.UrlDecode(_path);
+        }
+    }
+}

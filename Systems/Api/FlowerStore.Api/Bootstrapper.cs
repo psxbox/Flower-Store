@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlowersStore.Services;
 using FlowerStore.Services.Flowers;
+using FlowerStore.Services.Login;
 using FlowerStore.Services.UserAccount;
 
 namespace FlowerStore.Api
@@ -20,8 +22,10 @@ namespace FlowerStore.Api
         public static IServiceCollection RegisterAppServices(this IServiceCollection services)
         {
             services
-                .AddFlowerService()
-                .AddUserAccountService()
+                .AddScoped<ICategoryService, CategoryService>()
+                .AddScoped<IFlowerService, FlowerService>()
+                .AddScoped<ILoginService, LoginService>()
+                .AddScoped<IUserAccountService, UserAccountService>()
             ;
             return services;
         }

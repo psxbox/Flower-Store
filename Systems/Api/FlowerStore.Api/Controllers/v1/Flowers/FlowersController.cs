@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using FlowerStore.Context.Entities;
+using System.ComponentModel.DataAnnotations;
+using ObjectMapper;
+using FlowerStore.Services.Flowers.Models;
 
 namespace FlowerStore.Api.Controllers.v1.Flowers
 {
@@ -20,30 +23,25 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
     /// <response code="403">Forbidden</response>
     /// <response code="404">Not Found</response>
     [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/flowers")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Authorize]
-
-    public class FlowersController : ControllerBase
+    [Authorize(Roles = "SystemAdmin, Admin")]
+    public class FlowersController : BaseController
     {
-        private readonly UserManager<User> userManager;
         private readonly IFlowerService flowerService;
         private readonly ILogger<FlowersController> logger;
-        //private readonly User? currentUser;
+
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="flowerService"></param>
         /// <param name="logger"></param>
-        /// <param name="userManager"></param>
-        public FlowersController(UserManager<User> userManager, IFlowerService flowerService, ILogger<FlowersController> logger)
+        public FlowersController(IFlowerService flowerService, ILogger<FlowersController> logger)
         {
-            this.userManager = userManager;
             this.flowerService = flowerService;
-            this.logger = logger;    
-            //currentUser = userManager.GetUserAsync(HttpContext.User).Result;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -54,10 +52,12 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         /// <returns>List of FlowerResponse</returns>
         [ProducesResponseType(typeof(FlowersData), 200)]
         [HttpGet]
-        public async Task<FlowersData?> GetFlowersAsync([FromQuery] int page = 0, [FromQuery] int limit = 10)
+        public async Task<FlowersData?> GetFlowersAsync([FromQuery] int page = 1, [FromQuery] int limit = 10)
         {
-            var flowers = await flowerService.GetFlowers(page, limit);
-            var response = flowers.Select(f => (FlowerResponse)f);
+            string? userId = IsSystemAdmin ? null : GetUserId();
+
+            var flowers = await flowerService.GetFlowers(page, limit, userId);
+            var response = flowers.Select(f => (FlowerResponse)f!);
             var itemsCount = await flowerService.GetFlowersCount();
             var elementsResponse = new FlowersData(response, page, limit, itemsCount);
 
@@ -72,10 +72,10 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FlowerResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetFlowerAsync([FromRoute] int id)
+        public async Task<ActionResult<FlowerResponse>> GetFlowerAsync([FromRoute] int id)
         {
-            FlowerResponse? flower = await flowerService.GetFlower(id);
-            return flower == null ? NotFound() : Ok(flower);
+            var flower = await flowerService.GetFlower(id);
+            return flower == null ? NotFound() : Ok((FlowerResponse)flower);
         }
 
         /// <summary>
@@ -84,9 +84,13 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         /// <param name="addFlowerRequest">Flower data</param>
         /// <returns>Added flower</returns>
         [HttpPost]
-        public async Task<FlowerResponse> AddFlowerAsync([FromBody] AddFlowerRequest addFlowerRequest)
+        public async Task<ActionResult<FlowerResponse>> AddFlowerAsync([FromBody] AddFlowerRequest addFlowerRequest)
         {
-            return await flowerService.AddFlower(addFlowerRequest);
+            string? userId = GetUserId();
+
+            FlowerResponse flower = await flowerService.AddFlower(addFlowerRequest, userId);
+
+            return Ok(flower);
         }
 
         /// <summary>
@@ -98,7 +102,10 @@ namespace FlowerStore.Api.Controllers.v1.Flowers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFlowerAsync([FromRoute] int id, [FromBody] UpdateFlowerRequest updateFlowerRequest)
         {
-            await flowerService.UpdateFlower(id, updateFlowerRequest);
+            var mapper = MapObject<UpdateFlowerRequest, UpdateFlowerModel>.GetMapObject();
+            var model = mapper.Get(updateFlowerRequest);
+
+            await flowerService.UpdateFlower(id, model);
             return Ok();
         }
 

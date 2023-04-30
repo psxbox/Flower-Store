@@ -2,58 +2,150 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using FlowerStore.Common;
 using FlowerStore.Common.Exceptions;
+using FlowerStore.Context;
 using FlowerStore.Context.Entities;
 using FlowerStore.Services.UserAccount.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ObjectMapper;
 
 namespace FlowerStore.Services.UserAccount
 {
     public class UserAccountService : IUserAccountService
     {
-        private readonly UserManager<User> userManager;
-        public UserAccountService(UserManager<User> userManager)
+        private readonly MainDbContext context;
+
+        public UserAccountService(MainDbContext context)
         {
-            this.userManager = userManager;
+            this.context = context;
         }
 
-        public async Task<UserAccountModel> Create(RegisterAccountModel model)
+        public async Task<User> CreateAsync(RegisterUserModel model)
         {
-            var context = new ValidationContext(model);
-            bool isValid = Validator.TryValidateObject(model, context, null);
-
-            if (!isValid) throw new ValidationException("Model is invalid", null, model);
-
-            var user = await userManager.FindByEmailAsync(model.Email!);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
 
             if (user != null)
-                throw new ProcessException($"User account with email {model.Email} already exist.");
+                throw new ProcessException($"User account with name {model.UserName} already exist.");
 
             user = new User()
             {
                 Status = UserStatus.Active,
-                FullName = model.Name,
-                UserName = model.Name,
+                UserName = model.UserName,
                 Email = model.Email,
                 EmailConfirmed = true,
                 PhoneNumber = null,
                 PhoneNumberConfirmed = false,
+                PasswordHash = model.Password?.GetMD5(),
             };
 
-            var result = await userManager.CreateAsync(user, model.Password!);
+            user.UserRoles = new List<UserRole>()
+            {
+                new UserRole { Role = Role.User},
+            };
 
-            if (!result.Succeeded)
-                throw new ProcessException($"Creating user account is wrong. {
-                    string.Join(", ", result.Errors.Select(e => e.Description))
-                }");
-            
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+            return user!;
+        }
+
+        public async Task<User?> GetByIdAsync(string id)
+        {
+            var user = await context.Users.FindAsync(Guid.Parse(id));
             return user;
         }
 
-        public Task<IEnumerable<UserAccountModel>> GetAll()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return Task.FromResult(userManager.Users.ToList().Select(u => (UserAccountModel)u));
+            return await context.Users.ToListAsync();
+        }
+
+        public Task<IEnumerable<string>> GetRoleTypes()
+        {
+            return Task.FromResult(Enum.GetValues<Role>().Select(r => r.ToString()));
+        }
+
+        public async Task SetRolesAsync(string userId, IEnumerable<string> roles)
+        {
+            var user = await GetUser(userId);
+
+            if (user.UserRoles == null)
+                user.UserRoles = new List<UserRole>();
+            else
+                user.UserRoles.Clear();
+
+            foreach (var role in roles)
+            {
+                user.UserRoles?.Add(new UserRole { Role = Enum.Parse<Role>(role) });
+            }
+
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task SetPasswordAsync(string userId, string password)
+        {
+            User user = await GetUser(userId);
+
+            user.PasswordHash = password.GetMD5();
+            context.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        private async Task<User> GetUser(string userId)
+        {
+            return await GetByIdAsync(userId)
+                            ?? throw new ProcessException(ProcessExceptionCode.NotFound, "User not found");
+        }
+
+        public async Task ChangePasswordAsync(string userId, string oldPassword, string newPassword)
+        {
+            var user = await GetUser(userId);
+            ProcessException.ThrowIf(() => user.PasswordHash != oldPassword.GetMD5(), "Old password is not match");
+            user.PasswordHash = newPassword.GetMD5();
+            context.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task SetEmailConfirmedAsync(string userId, bool emailConfirmed)
+        {
+            var user = await GetUser(userId);
+            user.EmailConfirmed = emailConfirmed;
+            context.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task SetPhoneNumberConfirmedAsync(string userId, bool phoneNumberConfirmed)
+        {
+            var user = await GetUser(userId);
+            user.PhoneNumberConfirmed = phoneNumberConfirmed;
+            context.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task SetUserStatusAsync(string userId, UserStatus status)
+        {
+            var user = await GetUser(userId);
+            user.Status = status;
+            context.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateUser(string userId, UpdateUserModel model)
+        {
+            var user = await GetUser(userId);
+
+            var mapper = MapObject<UpdateUserModel, User>.GetMapObject()
+                .Ignore(d => d.Id)
+                .Ignore(d => d.PasswordHash)
+                .Ignore(d => d.UserRoles);
+
+            model.CopyTo(user, mapper);
+
+            context.Update(user);
+            await context.SaveChangesAsync();
         }
     }
 }

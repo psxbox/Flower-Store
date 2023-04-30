@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.3" />
+    <None Include="User\UserRole.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.4" />
   </ItemGroup>
 
 </Project>

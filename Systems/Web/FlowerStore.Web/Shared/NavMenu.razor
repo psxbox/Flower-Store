@@ -1,0 +1,15 @@
+﻿<MudNavMenu>
+    <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/">Home</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.LocalFlorist" Href="flowers">Flowers</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Yard">Bouquets</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.ListAlt">Orders</MudNavLink>
+    <AuthorizeView Roles="SystemAdmin">
+        <MudNavGroup Icon="@Icons.Material.Filled.Shield" Title="Admin">
+            <MudNavLink Icon="@Icons.Material.Filled.People" Href="users">Users</MudNavLink>
+        </MudNavGroup>
+    </AuthorizeView>
+</MudNavMenu>
+
+@code {
+
+}

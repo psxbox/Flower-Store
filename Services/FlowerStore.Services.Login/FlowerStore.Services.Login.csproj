@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj" />
+    <ProjectReference Include="..\..\Data\FlowerStore.Context\FlowerStore.Context.csproj" />
+    <ProjectReference Include="..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />
+  </ItemGroup>
+
+</Project>
