@@ -18,17 +18,10 @@ public class FlowerModel
 
     public static implicit operator FlowerModel(Flower flower)
     {
-        return MapObject<Flower, FlowerModel>.GetMapObject()
-                .CustomMap(d => d.Categories, s => s.Categories.Select(c => c.Name).ToArray())
+        var model = MapObject<Flower, FlowerModel>.GetMapObject()
+                .Ignore(d => d.Categories)
                 .Get(flower);
-        //return new FlowerModel
-        //{
-        //    Id = flower.Id,
-        //    Name = flower.Name,
-        //    Desription = flower.Desription,
-        //    Price = flower.Price,
-        //    Count = flower.Count,
-        //    Categories = flower.Categories?.Select(c => c.Name!).ToArray()
-        //};
+        model.Categories = flower.Categories.Select(c => c.Name).ToArray();
+        return model;
     }
 }

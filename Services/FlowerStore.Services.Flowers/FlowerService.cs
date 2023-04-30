@@ -85,6 +85,7 @@ namespace FlowerStore.Services.Flowers
             }
 
             flowers = flowers
+                .Include(i => i.Categories)
                 .Skip(Math.Max(0, page - 1) * limit)
                 .Take(Math.Min(1000, limit));
 
