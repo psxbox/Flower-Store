@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   flowerstore.postgresql:
+    container_name: flowerstore_postgresql
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
@@ -12,12 +13,14 @@ services:
       - "15432:5432"
 
   flowerstore.api:
+    container_name: flowerstore_api
     ports:
       - "10001:80"
     networks:
       - flowerstore.net
 
   flowerstore.web:
+    container_name: flowerstore_web
     environment:
       - ASPNETCORE_URLS=http://+:80
     ports:
