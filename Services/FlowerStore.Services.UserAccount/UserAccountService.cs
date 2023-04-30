@@ -10,6 +10,7 @@ using FlowerStore.Context;
 using FlowerStore.Context.Entities;
 using FlowerStore.Services.UserAccount.Models;
 using Microsoft.EntityFrameworkCore;
+using ObjectMapper;
 
 namespace FlowerStore.Services.UserAccount
 {
@@ -135,11 +136,14 @@ namespace FlowerStore.Services.UserAccount
         public async Task UpdateUser(string userId, UpdateUserModel model)
         {
             var user = await GetUser(userId);
-            user.UserName = model.UserName;
-            user.Email = model.Email;
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
+
+            var mapper = MapObject<UpdateUserModel, User>.GetMapObject()
+                .Ignore(d => d.Id)
+                .Ignore(d => d.PasswordHash)
+                .Ignore(d => d.UserRoles);
+
+            model.CopyTo(user, mapper);
+
             context.Update(user);
             await context.SaveChangesAsync();
         }

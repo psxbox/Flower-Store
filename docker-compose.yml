@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  flowerstore.postgresql:
+    image: postgres:14.1
+
+  flowerstore.api:
+    image: ${DOCKER_REGISTRY-}flowerstoreapi
+    build:
+      context: .
+      dockerfile: Systems/Api/FlowerStore.Api/Dockerfile
+    depends_on:
+      - flowerstore.postgresql
+
+  flowerstore.web:
+    image: ${DOCKER_REGISTRY-}flowerstoreweb
+    build:
+      context: .
+      dockerfile: Systems/Web/FlowerStore.Web/Dockerfile
+    depends_on:
+      - flowerstore.api
+

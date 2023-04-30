@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowerStore.Services.Flowers.Models;
+using ObjectMapper;
 
 namespace FlowerStore.Api.Controllers.v1.Flowers.Models
 {
@@ -42,15 +43,7 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
         /// <param name="flowerModel"></param>
         public static implicit operator FlowerResponse(FlowerModel flowerModel)
         {
-            return new FlowerResponse
-            {
-                Id = flowerModel.Id,
-                Name = flowerModel.Name,
-                Description = flowerModel.Description,
-                Price = flowerModel.Price,
-                Count = flowerModel.Count,
-                Categories = flowerModel.Categories,
-            };
+            return MapObject<FlowerModel, FlowerResponse>.GetMapObject().Get(flowerModel);
         }
     }
 }

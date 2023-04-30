@@ -1,4 +1,6 @@
-﻿using FlowerStore.Services.UserAccount.Models;
+﻿using FlowerStore.Context.Entities;
+using FlowerStore.Services.UserAccount.Models;
+using ObjectMapper;
 using System.ComponentModel.DataAnnotations;
 
 namespace FlowerStore.Api.Controllers.v1.Accounts.Models
@@ -19,6 +21,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// </summary>
         [Required, EmailAddress]
         public string? Email { get; set; }
+        public bool EmailConfirmed { get; set; }
 
         /// <summary>
         /// First name
@@ -34,6 +37,8 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// Phone number
         /// </summary>
         public string? PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public UserStatus Status { get; set; }
 
         /// <summary>
         /// Mapping 
@@ -41,14 +46,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// <param name="request"></param>
         public static implicit operator UpdateUserModel(UpdateUserRequest request)
         {
-            return new UpdateUserModel
-            {
-                UserName = request.UserName,
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                PhoneNumber = request.PhoneNumber,
-            };
+            return MapObject<UpdateUserRequest, UpdateUserModel>.GetMapObject().Get(request);
         }
     }
 }

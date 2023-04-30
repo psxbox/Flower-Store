@@ -1,0 +1,125 @@
+﻿
+@page "/users/edit/{UserId:guid}"
+
+<PageTitle>Edit user</PageTitle>
+
+@using FlowerStore.Web.Models.User;
+@using FlowerStore.Web.Services.User;
+@using System.Web;
+
+@attribute [Authorize(Roles = "SystemAdmin, Admin")]
+
+@inject NavigationManager NavigationManager
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+
+@if (userModel is null)
+{
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="50%" Animation="Animation.Wave" />
+}
+else
+{
+<EditForm Model=userModel OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText Typo="Typo.h4">Edit user</MudText> 
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="User name (login)" @bind-Value="userModel.UserName" Class="mb-1"
+                        For="@(() => userModel.UserName)"/>
+                    <MudTextField Label="Email" 
+                              @bind-Value="userModel.Email" For="@(() => userModel.Email)"/>
+                    <MudCheckBox T="bool" Label="Email confirmed" @bind-Checked="userModel.EmailConfirmed" Class="mb-1"
+                        For="@(() => userModel.EmailConfirmed)"/>
+                    <MudTextField Label="First name" @bind-Value="userModel.FirstName" Class="mb-1"
+                        For="@(() => userModel.FirstName)"/> 
+                    <MudTextField Label="Last name" @bind-Value="userModel.LastName" Class="mt-1"
+                        For="@(() => userModel.LastName)"/>
+                    <MudTextField Label="Phone number" 
+                              @bind-Value="userModel.PhoneNumber" For="@(() => userModel.PhoneNumber)"/>
+                    <MudCheckBox T="bool" Label="Phone number confirmed" @bind-Checked="userModel.PhoneNumberConfirmed" Class="mb-1"
+                        For="@(() => userModel.PhoneNumberConfirmed)"/>
+                    <MudSelect Label="User status" Class="mb-1" @bind-Value="@userModel.Status" For="@(() => userModel.Status)">
+                        <MudSelectItem Value="@UserStatus.Active">@UserStatus.Active</MudSelectItem>
+                        <MudSelectItem Value="@UserStatus.Blocked">@UserStatus.Blocked</MudSelectItem>
+                    </MudSelect>
+
+                    @if(roleTypes is not null)
+                    {
+                        <MudSelect T="string" MultiSelection=true Label="User roles" @bind-Value="value" 
+                            @bind-SelectedValues="userModel.UserRoles" For="@(() => value)">
+                            @foreach (var role in roleTypes)
+                            {
+                                <MudSelectItem T="string" Value="role" />
+                            }
+                        </MudSelect>
+                    }
+                </MudCardContent>
+                <MudCardActions Class="pa-4 mt-4">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" 
+                       Class="mx-2" Href="/users">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+}
+
+@code {
+    [Parameter] public Guid UserId { get; set; }
+
+    private string value { get; set; } = "Nothing selected";
+    private UserModel? userModel;
+    private IEnumerable<string>? roleTypes;
+    private EditForm editForm;
+
+    protected override async Task OnInitializedAsync()
+    {
+        roleTypes = await UserService.GetRoleTypesAsync();
+
+        try
+        {
+            userModel = await UserService.GetByIdAsync(UserId);
+            userModel.UserRoles ??= new List<string>();
+        }
+        catch (HttpRequestException ex)
+        {
+            if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                NavigationManager.NavigateTo("/usernotfound");
+            }
+            else
+            {
+                string path = HttpUtility.UrlEncode("/users");
+                NavigationManager.NavigateTo($"/error?message={ex.Message}&error_code={ex.StatusCode}&path={path}");
+            }
+        }
+        await base.OnInitializedAsync();
+    }
+
+
+    private async void Submit(EditContext context)
+    {
+        if (context.IsModified())
+            try
+            {
+                await UserService.UpdateUserAsync(userModel.Id, userModel);
+                await UserService.SetRolesAsync(userModel.Id, string.Join(",", userModel.UserRoles.ToArray()));
+                StateHasChanged();
+                Snackbar.Add("Success", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+    }
+}

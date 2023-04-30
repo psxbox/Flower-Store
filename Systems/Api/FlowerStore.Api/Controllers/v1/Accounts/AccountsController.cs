@@ -47,6 +47,20 @@ public class AccountsController : BaseController
         return user;
     }
 
+    [HttpPost("update/{userId}")]
+    public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserRequest request)
+    {
+        try
+        {
+            await userAccountService.UpdateUser(userId, request);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
+        }
+    }
+
     /// <summary>
     /// Get all user accounts
     /// </summary>
@@ -65,7 +79,7 @@ public class AccountsController : BaseController
     /// <param name="userId">User Id</param>
     /// <returns>UserResponse</returns>
     [HttpGet("{userId}")]
-    [Authorize(Roles = "SystemAdmin")]
+    [Authorize(Roles = "SystemAdmin, Admin")]
     public async Task<ActionResult<UserResponse>> GetById(string userId)
     {
         var user = await userAccountService.GetByIdAsync(userId);

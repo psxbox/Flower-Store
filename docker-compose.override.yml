@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  flowerstore.postgresql:
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres 
+    networks:
+      - flowerstore.net
+
+  flowerstore.api:
+    ports:
+      - "10001:80"
+    networks:
+      - flowerstore.net
+
+  flowerstore.web:
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "10002:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - flowerstore.net
+
+networks:
+  flowerstore.net:
+    name: flowerstore_network
+    driver: bridge

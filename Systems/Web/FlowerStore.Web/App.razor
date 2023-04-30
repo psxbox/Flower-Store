@@ -1,4 +1,5 @@
-﻿@using FlowerStore.Web.Pages.Auth
+﻿@using FlowerStore.Web.Components
+@using FlowerStore.Web.Pages.Auth
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
@@ -16,7 +17,7 @@
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(SimpleLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <NotFound />
             </LayoutView>
         </NotFound>
     </Router>

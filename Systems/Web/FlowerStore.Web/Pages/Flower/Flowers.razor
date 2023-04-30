@@ -1,0 +1,169 @@
+﻿@page "/flowers"
+
+@attribute [Authorize(Roles = "SystemAdmin, Admin")]
+
+@using FlowerStore.Web.Models.Flower;
+@using FlowerStore.Web.Services.Category;
+@using FlowerStore.Web.Services.Flower;
+
+@inject IFlowerService FlowerService
+@inject ICategoryService CategoryService
+@inject ISnackbar Snackbar
+@inject IDialogService Dialog
+
+<MudText Typo="Typo.h5" Class="mb-3">Flowers</MudText>
+
+<MudDataGrid @ref=dataGrid T="FlowerModel" Bordered=true Dense=false ServerData="GetServerDataAsync" Loading=isLoading
+    EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual" ReadOnly=false StartedEditingItem="Editing"
+    CommittedItemChanges="ItemChanged">
+    <ToolBarContent>
+        <AuthorizeView Roles="Admin"> 
+            <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddFlower" />
+        </AuthorizeView>
+        <MudIconButton Icon="@Icons.Material.Filled.Refresh" OnClick="@Refresh" />
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="p => p.Name" Title="Name"/>
+        <PropertyColumn Property="p => p.Description" Title="Description"/>
+        <PropertyColumn Property="p => p.Price" Title="Price"/>
+        <PropertyColumn Property="p => p.Count" Title="Count"/>
+        <TemplateColumn Title="Categories">
+            <CellTemplate>
+                <MudStack Row AlignItems="AlignItems.Center" Justify="Justify.FlexStart" Spacing="0">
+                    @if (@context?.Item?.Categories?.Count > 0)
+                    {
+                        foreach (var item in context.Item.Categories)
+                        {
+                            <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item" />
+                        }
+                    }
+                </MudStack>
+            </CellTemplate>
+            <EditTemplate>
+                <MudField Label="Categories" Variant="Variant.Outlined">
+                <MudChipSet AllClosable="true" OnClose="chip => RemoveChip(context?.Item?.Categories, chip.Text)">
+                    @if (@context?.Item?.Categories?.Count > 0)
+                    {
+                        foreach (var item in context.Item.Categories)
+                        {
+                            <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item" />
+                        }
+                    }
+                    <MudAutocomplete Placeholder="Type category" T="string" @ref=mudAutocomplete
+                        Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Add" SearchFunc="Search1"
+                        OnAdornmentClick="() => AddChip(context?.Item?.Categories)" CoerceValue=true  Immediate=true/>
+                </MudChipSet>
+                </MudField>
+            </EditTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="FlowerModel" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    private List<string>? _categories;
+    private bool isLoading = true;
+    private IEnumerable<FlowerModel>? pageData = null;
+    private MudDataGrid<FlowerModel>? dataGrid;
+    private MudAutocomplete<string>? mudAutocomplete;
+
+    private async Task<GridData<FlowerModel>> GetServerDataAsync(GridState<FlowerModel> state)
+    {
+        isLoading = true;
+        var data = await FlowerService.GetAllAsync(state.Page, state.PageSize);
+        pageData = data.Data;
+        isLoading = false;
+
+        return new GridData<FlowerModel>()
+        {
+            TotalItems = data.TotalElements,
+            Items = pageData,
+        };
+    }
+
+    private async void ItemChanged(FlowerModel model)
+    {
+        try
+        {
+            await FlowerService.UpdateFlowerAsync(model.Id, model);
+            Snackbar.Add("Save success", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+
+    }
+
+    private async void Editing()
+    {
+        mudAutocomplete?.Reset();
+        _categories = (await CategoryService.GetCategoriesAsync())?.ToList();
+    }
+
+    private async Task<IEnumerable<string>> Search1(string value)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrEmpty(value))
+            return _categories ?? new();
+        return _categories?.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase)) 
+            ?? new List<string>();
+    }
+
+    private void RemoveChip(List<string>? chips, string chip)
+    {
+        chips?.Remove(chip);
+    }
+
+    private void AddChip(List<string>? chips)
+    {
+        var newCategory = mudAutocomplete!.Value;
+
+        if (!string.IsNullOrWhiteSpace(newCategory) && !(chips?.Any(c => c.ToUpper() == newCategory.ToUpper()) ?? true))
+        {
+            chips?.Add(newCategory);
+            mudAutocomplete!.Reset();
+            StateHasChanged();
+        }
+    }
+
+    private async Task AddFlower()
+    {
+        var options = new DialogOptions { 
+            CloseOnEscapeKey = true,
+            DisableBackdropClick = true,
+            CloseButton = true
+        };
+        var dialog = await Dialog.ShowAsync<FlowerDialog>("Add new flower", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            try
+            {
+                var flowerModel = (FlowerModel)result.Data;
+                await FlowerService.AddFlowerAsync(flowerModel);
+                Snackbar.Add("Save success", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+        await Refresh();
+    }
+
+    private async Task Refresh()
+    {
+        var serverData = dataGrid?.ReloadServerData();
+        if (serverData is not null) 
+            await serverData;
+    }
+}

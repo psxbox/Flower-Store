@@ -1,0 +1,90 @@
+﻿@page "/users"
+@using FlowerStore.Web.Models.User;
+@using FlowerStore.Web.Services.User;
+
+@attribute [Authorize(Roles = "SystemAdmin")]
+
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Users</PageTitle>
+
+<MudText Typo="Typo.h5" Class="mb-3">Users</MudText>
+
+<MudDataGrid @ref=dataGrid T="UserModel" Bordered=true Dense=false Loading=isLoading
+    ReadOnly=true Items="users" ColumnResizeMode="ResizeMode.Column">
+    <ToolBarContent>
+        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="AddUser"/>
+        <MudIconButton Icon="@Icons.Material.Filled.Refresh" OnClick="LoadData"/>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="p => p.UserName" Title="User name (login)"/>
+        <PropertyColumn Property="p => p.Email" Title="Email"/>
+        <TemplateColumn Title="Email confirmed">
+            <CellTemplate>
+                <MudCheckBox ReadOnly=true Checked="context.Item.EmailConfirmed" />
+            </CellTemplate>
+        </TemplateColumn>
+        
+        <TemplateColumn Title="Full name">
+            <CellTemplate>
+                @context.Item.FirstName @context.Item.LastName
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="User roles">
+            <CellTemplate>
+                <MudStack Row Spacing="0" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+                    @foreach (var item in context.Item.UserRoles)
+                    {
+                        <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item"/>
+                    }
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="Status">
+            <CellTemplate>
+                <MudChip Label=true Color="@GetStatusColor(context.Item.Status)" Size="Size.Small" Text="@context.Item.Status.ToString()" /> 
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Href=@($"/users/edit/{context.Item.Id}")/>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="UserModel" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    private IEnumerable<UserModel>? users;
+    private MudDataGrid<UserModel>? dataGrid;
+    private bool isLoading = true;
+
+    private Color GetStatusColor(UserStatus userStatus) => userStatus switch
+    {
+        UserStatus.Active => Color.Primary,
+        UserStatus.Blocked => Color.Error,
+        _ => Color.Secondary
+    };
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        users = await UserService.GetAllAsync();
+        isLoading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+        await base.OnInitializedAsync();
+    }
+
+    private void AddUser()
+    {
+        //NavigationManager.NavigateTo("users/new");
+    }
+}

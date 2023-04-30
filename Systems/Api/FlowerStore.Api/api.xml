@@ -294,7 +294,7 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.Name">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.UserName">
             <summary>
             User name
             </summary>
@@ -332,7 +332,7 @@
             Phone number confirmation
             </summary>
         </member>
-        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.UserStatus">
+        <member name="P:FlowerStore.Api.Controllers.v1.Accounts.Models.UserResponse.Status">
             <summary>
             User status
             </summary>
@@ -347,6 +347,11 @@
             Converts <c>UserAccountModel</c> to <c>UserAccountResponse</c>
             </summary>
             <param name="user"></param>
+        </member>
+        <member name="T:FlowerStore.Api.Controllers.v1.Categories.CategoriesController">
+            <summary>
+            Categories controller
+            </summary>
         </member>
         <member name="T:FlowerStore.Api.Controllers.v1.Flowers.FlowersController">
             <summary>

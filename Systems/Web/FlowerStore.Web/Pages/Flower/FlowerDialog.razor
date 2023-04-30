@@ -1,0 +1,86 @@
+﻿@using FlowerStore.Web.Models.Flower;
+@using FlowerStore.Web.Services.Category;
+@inject ICategoryService CategoryService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form" @bind-IsValid="@success" ReadOnly="false" >
+            <MudTextField T="string" Label="Flower name" @bind-Value="flowerModel.Name" AutoFocus=true
+                Required=true RequiredError="Flower name is required"/>
+            <MudTextField T="string" Label="Description" @bind-Value="flowerModel.Description" />
+            <MudNumericField T="decimal?" InputMode="@(InputMode.@decimal)" Label="Price" @bind-Value="flowerModel.Price" />
+            <MudNumericField T="int?" Label="Count" InputMode="InputMode.numeric" @bind-Value="flowerModel.Count" />
+            <MudField Label="Categories" InnerPadding=false Class="mt-3">
+                <MudChipSet AllClosable="true" OnClose="chip => RemoveChip(chip.Text)">
+                    @if (@flowerModel.Categories?.Count > 0)
+                    {
+                        foreach (var item in flowerModel.Categories)
+                        {
+                            <MudChip Label="true" Color="Color.Primary" Size="Size.Small" Text="@item" />
+                        }
+                    }
+                    <MudAutocomplete Placeholder="Type category" T="string" @ref=mudAutocomplete
+                        Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Add" SearchFunc="Search1"
+                        OnAdornmentClick="() => AddChip()" CoerceValue=true  Immediate=true/>
+                </MudChipSet>
+            </MudField>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    private FlowerModel flowerModel = new();
+    private MudAutocomplete<string>? mudAutocomplete;
+    private List<string>? _categories;
+    bool success;
+    MudForm? form;
+
+    async void Submit() 
+    {
+        await form!.Validate();
+
+        if (success)
+            MudDialog.Close(DialogResult.Ok(flowerModel));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _categories = (await CategoryService.GetCategoriesAsync())?.ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<IEnumerable<string>> Search1(string value)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrEmpty(value))
+            return _categories ?? new();
+        return _categories?.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase)) 
+            ?? new List<string>();
+    }
+
+    private void RemoveChip(string chip)
+    {
+        flowerModel.Categories?.Remove(chip);
+    }
+
+    private void AddChip()
+    {
+        var newCategory = mudAutocomplete!.Value;
+
+        flowerModel.Categories ??= new();
+
+        if (!string.IsNullOrWhiteSpace(newCategory) && !(flowerModel.Categories?.Any(c => c.ToUpper() == newCategory.ToUpper()) ?? true))
+        {
+            flowerModel.Categories?.Add(newCategory);
+            mudAutocomplete!.Reset();
+            StateHasChanged();
+        }
+    }
+}

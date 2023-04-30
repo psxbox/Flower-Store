@@ -18,6 +18,11 @@ namespace FlowersStore.Services
             this.context = context;
         }
 
+        public async Task<IEnumerable<Category>> GetAllAsync()
+        {
+            return await context.Categories.ToListAsync();
+        }
+
         public async Task<IEnumerable<Category>> GetOrAddCategories(string[]? categories)
         {
             var result = new List<Category>();
