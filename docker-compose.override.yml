@@ -10,8 +10,6 @@ services:
       - flowerstore.net
 
   flowerstore.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "10001:80"
     networks:
@@ -19,7 +17,6 @@ services:
 
   flowerstore.web:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "10002:80"
