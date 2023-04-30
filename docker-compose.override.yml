@@ -22,8 +22,6 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "10002:80"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
     networks:
       - flowerstore.net
 
