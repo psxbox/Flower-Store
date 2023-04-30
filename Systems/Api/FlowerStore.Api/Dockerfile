@@ -14,7 +14,12 @@ COPY ["Shared/FlowerStore.Common/FlowerStore.Common.csproj", "Shared/FlowerStore
 COPY ["Shared/AppSettings/AppSettings.csproj", "Shared/AppSettings/"]
 COPY ["Services/FlowerStore.Services.Settings/FlowerStore.Services.Settings.csproj", "Services/FlowerStore.Services.Settings/"]
 COPY ["Services/FlowerStore.Services.Flowers/FlowerStore.Services.Flowers.csproj", "Services/FlowerStore.Services.Flowers/"]
+COPY ["Services/FlowersStore.Services.Category/FlowerStore.Services.Category.csproj", "Services/FlowersStore.Services.Category/"]
 COPY ["Services/FlowerStore.Services.UserAccount/FlowerStore.Services.UserAccount.csproj", "Services/FlowerStore.Services.UserAccount/"]
+COPY ["Data/Migrations/FlowerStore.Context.Migrations.MSSQL/FlowerStore.Context.Migrations.MSSQL.csproj", "Data/Migrations/FlowerStore.Context.Migrations.MSSQL/"]
+COPY ["Data/Migrations/FlowerStore.Context.Migrations.MySQL/FlowerStore.Context.Migrations.MySQL.csproj", "Data/Migrations/FlowerStore.Context.Migrations.MySQL/"]
+COPY ["Data/Migrations/FlowerStore.Context.Migrations.PostgreSQL/FlowerStore.Context.Migrations.PostgreSQL.csproj", "Data/Migrations/FlowerStore.Context.Migrations.PostgreSQL/"]
+COPY ["Data/Migrations/FlowerStore.Context.Migrations.SQLite/FlowerStore.Context.Migrations.SQLite.csproj", "Data/Migrations/FlowerStore.Context.Migrations.SQLite/"]
 RUN dotnet restore "Systems/Api/FlowerStore.Api/FlowerStore.Api.csproj"
 COPY . .
 WORKDIR "/src/Systems/Api/FlowerStore.Api"

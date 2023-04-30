@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowerStore.Services.Flowers.Models;
+using ObjectMapper;
 
 namespace FlowerStore.Api.Controllers.v1.Flowers.Models
 {
@@ -45,11 +46,8 @@ namespace FlowerStore.Api.Controllers.v1.Flowers.Models
         /// <param name="addFlowerRequest"></param>
         public static implicit operator AddFlowerModel(AddFlowerRequest addFlowerRequest)
         {
-            return new AddFlowerModel
-            {
-                Name = addFlowerRequest.Name,
-                Description = addFlowerRequest.Description
-            };
+            return MapObject<AddFlowerRequest, AddFlowerModel>.GetMapObject()
+                .Get(addFlowerRequest);
         }
     }
 }

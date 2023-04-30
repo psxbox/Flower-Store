@@ -145,6 +145,9 @@ namespace FlowerStore.Context.Migrations.MySQL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Categories");
                 });
 

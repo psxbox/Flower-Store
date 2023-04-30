@@ -22,7 +22,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// User name
         /// </summary>
         /// <value></value>
-        public string? Name { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// User email
@@ -59,7 +59,7 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
         /// <summary>
         /// User status
         /// </summary>
-        public UserStatus UserStatus { get; set; }
+        public UserStatus Status { get; set; }
 
         /// <summary>
         /// User roles
@@ -75,14 +75,14 @@ namespace FlowerStore.Api.Controllers.v1.Accounts.Models
             return new()
             {
                 Id = user.Id,
-                Name = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 EmailConfirmed = user.EmailConfirmed,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-                UserStatus = user.Status,
+                Status = user.Status,
                 UserRoles = user.UserRoles?.Select(r => r.Role.ToString())
             };
         }

@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="ObjectMapper.psxbox" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Data\FlowerStore.Context.Entities\FlowerStore.Context.Entities.csproj" />
     <ProjectReference Include="..\..\Data\FlowerStore.Context\FlowerStore.Context.csproj" />
     <ProjectReference Include="..\..\Shared\FlowerStore.Common\FlowerStore.Common.csproj" />

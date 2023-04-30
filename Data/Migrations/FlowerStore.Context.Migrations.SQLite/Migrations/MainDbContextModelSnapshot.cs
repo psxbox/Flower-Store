@@ -144,6 +144,9 @@ namespace FlowerStore.Context.Migrations.SQLite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Categories");
                 });
 

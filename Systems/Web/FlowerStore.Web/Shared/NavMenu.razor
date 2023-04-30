@@ -1,20 +1,13 @@
 ﻿<MudNavMenu>
-    <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/">Bosh saxifa</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/">Home</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.LocalFlorist" Href="flowers">Flowers</MudNavLink>
-    <MudNavLink Icon="@Icons.Material.Filled.ControlPoint" Href="points" >Aloqa nuqtalari</MudNavLink>
-    <MudNavGroup Icon="@Icons.Material.Filled.Devices" Title="Qurilamlar">
-        <MudNavLink Icon="@Icons.Material.Filled.Devices" Href="devices" >Qurilmalar qo'yxati</MudNavLink>
-        <MudNavLink Icon="@Icons.Material.Filled.DevicesOther" Href="device_types">Qurilma turlari</MudNavLink>
-        <MudNavLink Icon="@Icons.Material.Filled.Widgets" Href="device_templates">Qurilma sozlama shablonlari</MudNavLink>
-    </MudNavGroup>
-    <MudNavGroup Icon="@Icons.Material.Filled.Schedule" Title="Vazifalar">
-        <MudNavLink Icon="@Icons.Material.Filled.Schedule" Href="schedules">Vazifalar ro'txati</MudNavLink>
-    </MudNavGroup>
-    <MudNavGroup Icon="@Icons.Material.Filled.Shield" Title="Administrator">
-        <MudNavLink Icon="@Icons.Material.Filled.People" Href="users">Foydalanuvchilar</MudNavLink>
-        <MudNavLink Icon="@Icons.Material.Filled.Accessibility" Href="roles" >Rollar</MudNavLink>
-    </MudNavGroup>
-
+    <MudNavLink Icon="@Icons.Material.Filled.Yard">Bouquets</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.ListAlt">Orders</MudNavLink>
+    <AuthorizeView Roles="SystemAdmin">
+        <MudNavGroup Icon="@Icons.Material.Filled.Shield" Title="Admin">
+            <MudNavLink Icon="@Icons.Material.Filled.People" Href="users">Users</MudNavLink>
+        </MudNavGroup>
+    </AuthorizeView>
 </MudNavMenu>
 
 @code {

@@ -118,11 +118,18 @@ namespace FlowerStore.Services.Flowers
             var categories = await categoryService.GetOrAddCategories(model.Categories
                 ?? Array.Empty<string>());
 
+            flower?.Categories?.Clear();
+            if (categories.Any())
+            {
+                flower?.Categories?.AddRange(categories);
+            }
+
+
             MapObject<UpdateFlowerModel, Flower>.GetMapObject()
                 .Ignore(x => x.Id)
                 .Ignore(x => x.Uid)
                 .Ignore(x => x.User)
-                .CustomMap(d => d.Categories, s => categories.ToArray())
+                .Ignore(x => x.Categories)
                 .Copy(model, flower!);
 
             context.Flowers.Update(flower!);
